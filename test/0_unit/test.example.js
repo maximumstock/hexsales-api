@@ -4,7 +4,7 @@ require('co-mocha');
 const expect = require('chai').expect;
 
 
-describe('example', function() {
+describe('unit test', function() {
 
     it('should do something', function*() {
 
