@@ -26,6 +26,7 @@
     "co-supertest": "0.0.10",
     "istanbul": "^0.4.2",
     "mocha": "^2.3.4",
+    "require-new": "^1.1.0",
     "supertest": "^1.1.0"
   },
   "dependencies": {
