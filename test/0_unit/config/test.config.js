@@ -48,10 +48,7 @@ describe('Config', function() {
 
             process.env.NODE_ENV = 'staging';
             process.env.PORT = 'dummyport';
-            process.env.DBUSER = 'dummyuser';
-            process.env.DBPASS = 'dummypass';
-            process.env.DBHOST = 'dummyhost';
-            process.env.DBNAME = 'dummyname';
+            process.env.CONNECTIONSTRING = 'dummy';
             const config = requireNew('../../../config');
 
             checkConfig(config);
@@ -64,9 +61,9 @@ describe('Config', function() {
             process.env.NODE_ENV = 'staging';
 
             try {
-              requireNew('../../../lib/config');
-            } catch(e) {
-              expect(e).to.be.an('error');
+                requireNew('../../../lib/config');
+            } catch (e) {
+                expect(e).to.be.an('error');
             }
 
         });
@@ -79,10 +76,7 @@ describe('Config', function() {
 
             process.env.NODE_ENV = 'production';
             process.env.PORT = 'dummyport';
-            process.env.DBUSER = 'dummyuser';
-            process.env.DBPASS = 'dummypass';
-            process.env.DBHOST = 'dummyhost';
-            process.env.DBNAME = 'dummyname';
+            process.env.CONNECTIONSTRING = 'dummy';
             const config = requireNew('../../../config');
 
             checkConfig(config);
@@ -95,9 +89,9 @@ describe('Config', function() {
             process.env.NODE_ENV = 'production';
 
             try {
-              requireNew('../../../lib/config');
-            } catch(e) {
-              expect(e).to.be.an('error');
+                requireNew('../../../lib/config');
+            } catch (e) {
+                expect(e).to.be.an('error');
             }
 
         });

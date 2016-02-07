@@ -8,10 +8,6 @@ module.exports = {
 
     environment: 'development',
 
-    dbname: 'hexdatabaseapi',
-    dbuser: 'hexdatabaseapi',
-    dbpass: 'hexdatabaseapi',
-    dbhost: 'localhost',
-    dbport: 5432,
+    connectionstring: 'postgres://hexsalesapi:hexsalesapi@localhost:5432/hexsalesapi'
 
 };

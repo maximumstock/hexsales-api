@@ -1,3 +1,3 @@
-# nodejs-template
+# hexsales-api
 
-A simple node.js template for future projects using koa.js.
+A REST-like HTTP API for sales data for the HEX tcg built with node.js and koa.js
