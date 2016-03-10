@@ -4,39 +4,13 @@
  * @file Exports a configuration object based on NODE_ENV
  */
 
-const defaultConfig = require('./default');
+module.exports = {
 
+  port: process.env.PORT || 3000,
+  dbUrl: process.env.DBURL || 'pg://hexsalesapi:hexsalesapi@localhost:5432/hexsalesapi',
 
-/**
- * @file Builds a configuration object from the default configuration and the relevant environment-specific configuration
- */
-module.exports = function buildConfig() {
+  cdnIndex: 'http://dl.hex.gameforge.com/auctionhouse/index.txt',
+  cdnRoot: 'http://dl.hex.gameforge.com/auctionhouse',
+  apiUrl: 'http://hexdbapi2.hexsales.net/v1/objects/search'
 
-    const environment = process.env.NODE_ENV || 'development'; // default 'development'
-
-    const config = defaultConfig;
-    let envConfig = {};
-
-    switch (environment.toLowerCase()) {
-
-        case 'development':
-            envConfig = require('./env/development');
-            break;
-        case 'staging':
-            envConfig = require('./env/staging');
-            break;
-        case 'production':
-            envConfig = require('./env/production');
-            break;
-        default:
-            throw new Error('Unbekannte Umgebungskonfiguration');
-
-    }
-
-    for (let prop in envConfig) {
-        config[prop] = envConfig[prop];
-    }
-
-    return config;
-
-}();
+};

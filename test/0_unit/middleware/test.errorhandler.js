@@ -14,48 +14,48 @@ const errorHandler = middleware.errorHandler;
 
 describe('Error Handler', function() {
 
-    it('should return a thrown error as a json object', function*() {
+  it('should return a thrown error as a json object', function*() {
 
-        const app = koa();
-        app.use(errorHandler());
-        app.use(function*(next) {
-            const err = new Error('very important error');
-            err.status = 401;
-            throw err;
-        });
-
-        const result = yield request(app.listen()).get('/').expect(401).end();
-
-        expect(result.body).to.be.an('object');
-        expect(result.body).to.have.a.property('status');
-        expect(result.body).to.have.a.property('msg');
-        expect(result.body).to.have.a.property('err');
-        expect(result.body.status).to.equal(401);
-
+    const app = koa();
+    app.use(errorHandler());
+    app.use(function*(next) {
+      const err = new Error('very important error');
+      err.status = 401;
+      throw err;
     });
 
-    it('should not provide stacktrace information when not in development mode', function*() {
+    const result = yield request(app.listen()).get('/').expect(401).end();
 
-        process.env.NODE_ENV = 'production';
+    expect(result.body).to.be.an('object');
+    expect(result.body).to.have.a.property('status');
+    expect(result.body).to.have.a.property('msg');
+    expect(result.body).to.have.a.property('err');
+    expect(result.body.status).to.equal(401);
 
-        const app = koa();
-        app.use(errorHandler());
-        app.use(function*(next) {
-            const err = new Error('very important error');
-            err.status = 401;
-            throw err;
-        });
+  });
 
-        const result = yield request(app.listen()).get('/').expect(401).end();
+  it('should not provide stacktrace information when not in development mode', function*() {
 
-        expect(result.body).to.be.an('object');
-        expect(result.body).to.have.a.property('status');
-        expect(result.body).to.have.a.property('msg');
-        expect(result.body).to.not.have.a.property('err');
-        expect(result.body.status).to.equal(401);
+    process.env.NODE_ENV = 'production';
 
-        process.env.NODE_ENV = null;
-
+    const app = koa();
+    app.use(errorHandler());
+    app.use(function*(next) {
+      const err = new Error('very important error');
+      err.status = 401;
+      throw err;
     });
+
+    const result = yield request(app.listen()).get('/').expect(401).end();
+
+    expect(result.body).to.be.an('object');
+    expect(result.body).to.have.a.property('status');
+    expect(result.body).to.have.a.property('msg');
+    expect(result.body).to.not.have.a.property('err');
+    expect(result.body.status).to.equal(401);
+
+    process.env.NODE_ENV = null;
+
+  });
 
 });
