@@ -55,6 +55,11 @@ exports.up = function(knex, Promise) {
 exports.down = function(knex, Promise) {
   return Promise.all([
 
+
+    knex.schema.raw('drop materialized view if exists economy_daily_history;'),
+    knex.schema.raw('drop materialized view if exists daily_article_sales;'),
+    knex.schema.raw('drop materialized view if exists distinct_articles;'),
+
     knex.schema.dropTableIfExists('sales'),
 
     knex.schema.raw('drop index if exists sales_date_idx;'),
@@ -63,11 +68,7 @@ exports.down = function(knex, Promise) {
     knex.schema.raw('drop index if exists sales_currency_idx;'),
     knex.schema.raw('drop index if exists sales_rarity_idx;'),
     knex.schema.raw('drop index if exists sales_type_idx;'),
-    knex.schema.raw('drop index if exists sales_uuid_idx;'),
-
-    knex.schema.raw('drop materialized view if exists distinct_articles'),
-    knex.schema.raw('drop materialized view if exists daily_article_sales'),
-    knex.schema.raw('drop materialized view if exists economy_daily_history')
+    knex.schema.raw('drop index if exists sales_uuid_idx;')
 
   ]);
 
