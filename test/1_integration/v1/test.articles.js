@@ -118,14 +118,14 @@ describe('articles', function() {
       props.forEach(function(p) {
         expect(result[p]).to.be.an('array');
         result[p].forEach(function(e) {
-          expect(e).to.have.a.property('date');
-          expect(e).to.have.a.property('currency');
-          expect(e).to.have.a.property('avg');
-          expect(e).to.have.a.property('median');
-          expect(e).to.have.a.property('min');
-          expect(e).to.have.a.property('max');
-          expect(e).to.have.a.property('quantity');
-          expect(e).to.have.a.property('total');
+          expect(e).to.have.a.property('d');
+          expect(e).to.have.a.property('c');
+          expect(e).to.have.a.property('a');
+          expect(e).to.have.a.property('m');
+          expect(e).to.have.a.property('mi');
+          expect(e).to.have.a.property('ma');
+          expect(e).to.have.a.property('q');
+          expect(e).to.have.a.property('t');
         });
       })
 
@@ -218,7 +218,7 @@ describe('articles', function() {
 
     it('should support limit', function*() {
 
-      const res = yield request.post('/v1/articles/search').send({limit: 10}).expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
+      const res = yield request.post('/v1/articles/search').send({limit: 10, contains: true}).expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
       const result = res.body;
       expect(result).to.be.an('array');
       expect(result.length).to.equal(10);
@@ -227,8 +227,8 @@ describe('articles', function() {
 
     it('should support offset', function*() {
 
-      const res1 = yield request.post('/v1/articles/search').send({limit: 1, offset: 0}).expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
-      const res2 = yield request.post('/v1/articles/search').send({limit: 1, offset: 1}).expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
+      const res1 = yield request.post('/v1/articles/search').send({limit: 1, offset: 0, contains: true}).expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
+      const res2 = yield request.post('/v1/articles/search').send({limit: 1, offset: 1, contains: true}).expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
 
       expect(res1.body[0].internal).to.not.equal(res2.body[0].internal);
 
