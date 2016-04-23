@@ -63,7 +63,7 @@ Example 1: <a href="/v1/articles/Wrathwood Colossus/summaries">`/v1/articles/Wra
       }
     }
 
-Example 2: `/v1/articles/Wrathwood Colossus/summaries?start=2014-12-23&end=2016-04-23`:
+Example 2: <a href="/v1/articles/Wrathwood Colossus/summaries?start=2014-12-23&end=2016-04-23">`/v1/articles/Wrathwood Colossus/summaries?start=2014-12-23&end=2016-04-23`</a>:
 
     {
       "platinum": {
