@@ -24,10 +24,9 @@ describe('economy', function() {
           expect(e).to.have.a.property('d');
           expect(e).to.have.a.property('c');
           expect(e).to.have.a.property('a');
-          expect(e).to.have.a.property('mi');
-          expect(e).to.have.a.property('ma');
           expect(e).to.have.a.property('q');
           expect(e).to.have.a.property('t');
+          expect(e).to.have.a.property('r')
         });
       })
 
