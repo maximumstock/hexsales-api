@@ -31,7 +31,6 @@
     "supertest": "^1.1.0"
   },
   "dependencies": {
-    "apicache": "0.0.14",
     "bunyan": "^1.5.1",
     "kcors": "^1.1.0",
     "knex": "^0.10.0",
