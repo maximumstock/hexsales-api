@@ -10,7 +10,6 @@
     "dot-notation": 1,
     "no-unused-vars": 0,
     "no-undef": 1,
-    "quotes": [2, "single"],
     "curly": [2, "all"],
     "indent": [2, 2, {"SwitchCase": 1}],
     "eqeqeq": 2
