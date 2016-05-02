@@ -20,14 +20,9 @@ Returns all data for the article with name `:name`. If there is none, a `404` re
 Example: <a href="/v1/articles/Vampire King">`/v1/articles/Vampire King`</a>
 
     {
-      "name": "Wrathwood Colossus AA",   // extended name (depending on `aa` and `ea`; if you request the AA version of a card, it's name is extended by " AA"; theoretically, once extended art versions are distinguished in HexEnt's data dumps, an extended and alternate art version of Wrathwood Colossus would be called "Wrathwood Colossus EAA")
-      "internal": "Wrathwood Colossus",  // internal name from HexEnt's auction house dumps
-      "uuid": "054ddfcc-61f1-49d1-8287-37fb35a0c03d",   // official uuid, if one can be found, otherwise null
-      "type": "Card",   // type of the article, eg. "Card", "Equipment" or "Pack",
+      "name": "Wrathwood Colossus AA",   // extended name (if you request the AA version of a card, it's name is extended by " AA"; theoretically, once extended art versions are distinguished in HexEnt's data dumps, an extended and alternate art version of Wrathwood Colossus would be called "Wrathwood Colossus EAA")
+      "type": "Card",   // type of the article, eg. "Card", "Pack" or "Other",
       "rarity": "Epic", // rarity of the article; might be null
-      "setid": "001",
-      "aa": true,
-      "ea": false
     }
 
 ---
@@ -126,43 +121,30 @@ Example: <a href="/v1/articles/Wrathwood Colossus/histories">`/v1/articles/Wrath
 
 ---
 
-POST `/v1/articles`
+POST `/v1/articles/search`
 
 Let's you search for all articles with certain attribute values.
 
 Optional Parameters:
   * `name` - String - The name of the searched article.
   * `rarity` - String - The rarity of the searched articles.
-  * `setid` - String - The set id of the searched articles.
   * `type` - String - The type of the searched articles.
-  * `uuid` - String - The uuid of the searched article.
-  * `aa` - Boolean - If true, only alternate art versions are found.
   * `limit` - Integer - Limits the quantity of returned results (default: 25).
   * `offset` - Integer - Skips `offset` articles before returning (default: 0).
   * `contains` - Boolean - If true, all articles with a name containing `name` will be searched (case insensitive), instead of exact matches (case sensitive)
 
-Example: POST `/v1/articles/search` with request body "{aa: true}"
+Example: POST `/v1/articles/search` with request body "{rarity: 'Epic'}"
 
     [
       {
         "name": "Adamanthian Scrivener AA",
-        "internal": "Adamanthian Scrivener",
-        "uuid": "d2222e6c-c8f8-4dad-b6d1-c0aacd3fc8f0",
         "type": "Card",
-        "rarity": "Epic",
-        "setid": "001",
-        "aa": true,
-        "ea": false
+        "rarity": "Epic"
       },
       {
         "name": "Arborean Rootfather AA",
-        "internal": "Arborean Rootfather",
-        "uuid": "9ef979ba-93c4-49dc-94a7-68be93806df4",
         "type": "Card",
-        "rarity": "Epic",
-        "setid": "002",
-        "aa": true,
-        "ea": false
+        "rarity": "Epic"
       }, ...
     ]
 
@@ -181,4 +163,3 @@ Optional Parameters:
 Example: <a href="/v1/economy/histories">`/v1/economy/histories`</a>
 
 Looks exactly the same as `/v1/articles/:name/histories`
-
