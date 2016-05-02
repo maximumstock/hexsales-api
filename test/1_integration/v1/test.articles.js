@@ -37,7 +37,7 @@ describe('articles', function() {
       const res1 = yield request.get('/v1/articles?limit=1&offset=0').expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
       const res2 = yield request.get('/v1/articles?limit=1&offset=1').expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
 
-      expect(res1.body[0].internal).to.not.equal(res2.body[0].internal);
+      expect(res1.body[0].name).to.not.equal(res2.body[0].name);
 
     });
 
@@ -191,30 +191,30 @@ describe('articles', function() {
 
     });
 
-    it('should support searching by aa', function*() {
-
-      const res = yield request.post('/v1/articles/search').send({aa: true}).expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
-      const result = res.body;
-
-      expect(result).to.be.an('array');
-      result.forEach(function(a) {
-        expect(a.aa).to.equal(true);
-      });
-
-    });
-
-    it('should support searching by uuid', function*() {
-
-      const res = yield request.post('/v1/articles/search').send({uuid: '46c02066-29af-4b7d-bbcb-41ba76e8120f'}).expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
-      const result = res.body;
-
-      expect(result).to.be.an('array');
-      expect(result.length < 2).to.equal(true); // 0 or 1 resulting articles
-      result.forEach(function(a) {
-        expect(a.uuid).to.equal('46c02066-29af-4b7d-bbcb-41ba76e8120f');
-      });
-
-    });
+//    it('should support searching by aa', function*() {
+//
+//      const res = yield request.post('/v1/articles/search').send({aa: true}).expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
+//      const result = res.body;
+//
+//      expect(result).to.be.an('array');
+//      result.forEach(function(a) {
+//        expect(a.aa).to.equal(true);
+//      });
+//
+//    });
+//
+//    it('should support searching by uuid', function*() {
+//
+//      const res = yield request.post('/v1/articles/search').send({uuid: '46c02066-29af-4b7d-bbcb-41ba76e8120f'}).expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
+//      const result = res.body;
+//
+//      expect(result).to.be.an('array');
+//      expect(result.length < 2).to.equal(true); // 0 or 1 resulting articles
+//      result.forEach(function(a) {
+//        expect(a.uuid).to.equal('46c02066-29af-4b7d-bbcb-41ba76e8120f');
+//      });
+//
+//    });
 
     it('should support limit', function*() {
 
@@ -230,7 +230,7 @@ describe('articles', function() {
       const res1 = yield request.post('/v1/articles/search').send({limit: 1, offset: 0, contains: true}).expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
       const res2 = yield request.post('/v1/articles/search').send({limit: 1, offset: 1, contains: true}).expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
 
-      expect(res1.body[0].internal).to.not.equal(res2.body[0].internal);
+      expect(res1.body[0].name).to.not.equal(res2.body[0].name);
 
     });
 
