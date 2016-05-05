@@ -21,7 +21,7 @@ describe('economy', function() {
       props.forEach(function(p) {
         expect(result[p]).to.be.an('array');
         result[p].forEach(function(e) {
-					expect(e).to.have.a.property('d');
+          expect(e).to.have.a.property('d');
           expect(e).to.have.a.property('c');
           expect(e).to.have.a.property('q');
           expect(e).to.have.a.property('t');
@@ -38,6 +38,36 @@ describe('economy', function() {
       expect(result).to.be.an('object');
       expect(result).to.have.a.property('status');
       expect(result.status).to.equal(400);
+
+    });
+
+  });
+
+  describe('GET /economy/mostsold', function() {
+
+    it('should return an object with data for each currency', function*() {
+
+      const start = '2016-01-01';
+      const end = '2016-01-03'
+      const limit = 40;
+
+      const res = yield request.get(`/v1/economy/mostsold?start=${start}&end=${end}&limit=${limit}`).expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
+      const result = res.body;
+      expect(result).to.be.an('object');
+
+      ['platinum', 'gold'].forEach(function(currency) {
+
+        expect(result).to.have.a.property(currency);
+        expect(result[currency]).to.be.an('array');
+        expect(result[currency].length).to.equal(limit);
+
+        const row = result[currency][0];
+        expect(row).to.have.a.property('total');
+        expect(row).to.have.a.property('quantity');
+        expect(row).to.have.a.property('avg');
+        expect(row).to.have.a.property('name');
+
+      });
 
     });
 
