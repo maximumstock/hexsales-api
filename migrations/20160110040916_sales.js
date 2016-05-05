@@ -3,59 +3,79 @@
 exports.up = function(knex, Promise) {
   return Promise.all([
 
+    /*******************************************************
+                        SALES TABLE
+    *******************************************************/
+
     knex.schema.createTableIfNotExists('sales', function(t) {
       t.bigIncrements().primary();
       t.charset('utf8');
       // sale related data
-      t.string('name');
-      t.string('uuid');
+      t.string('name'); // modified internal string
       t.string('internal');
-      t.string('type'); // either 'Card', 'Pack' or 'Equipment' (or maybe something else in the future)
-      t.date('date');
-      t.integer('price');
-      t.string('currency');
       t.string('rarity');
-      t.string('setid'); // actually everything belongs to some sort of set
-      t.boolean('aa').defaultTo(false);
-      t.boolean('ea').defaultTo(false);
-
+      t.string('setid');
+      t.string('type');
+      t.string('currency');
+      t.integer('price');
+      t.date('date');
     }),
 
-    knex.schema.raw('create index sales_internal_idx on sales("internal");'),
-    knex.schema.raw('create index sales_type_idx on sales("type");'),
-    knex.schema.raw('create index sales_currency_idx on sales("currency");'),
-    knex.schema.raw('create index sales_rarity_idx on sales("rarity");'),
     knex.schema.raw('create index sales_name_idx on sales("name");'),
-    knex.schema.raw('create index sales_uuid_idx on sales("uuid");'),
+    knex.schema.raw('create index sales_internal_idx on sales("internal");'),
+    knex.schema.raw('create index sales_rarity_idx on sales("rarity");'),
+    knex.schema.raw('create index sales_type_idx on sales("type");'),
+    knex.schema.raw('create index sales_setid_idx on sales("setid");'),
+    knex.schema.raw('create index sales_currency_idx on sales("currency");'),
     knex.schema.raw('create index sales_date_idx on sales("date");'),
 
-    // all distinct articles
-    knex.schema.raw('create materialized view distinct_articles as \
-                     select name, internal, uuid, type, rarity, setid, aa, ea \
-                     from sales \
-                     group by name, uuid, internal, type, rarity, setid, aa, ea;'),
 
-    knex.schema.raw('create unique index u_idx on distinct_articles(internal, aa, ea, type);'),
+    /*******************************************************
+                        DAILY_SALES TABLE
+    *******************************************************/
 
-    // daily history for each article
-    knex.schema.raw('create materialized view daily_article_sales as \
-                     select name, internal, date, currency, sum(1) as daily_quantity, sum(price) as daily_total \
-                     from sales \
-                     group by name, internal, date, currency;'),
+    knex.schema.createTableIfNotExists('daily_sales', function(t) {
+      t.bigIncrements().primary();
+      t.charset('utf8');
+      // aggregated sale data
+      t.string('name'); // modified internal string
+      t.string('internal');
+      t.string('rarity');
+      t.string('setid');
+      t.string('type');
+      t.string('currency');
+      t.date('date');
+      // aggregated data
+      t.integer('total');
+      t.integer('quantity');
+      t.integer('min');
+      t.integer('max');
+      t.integer('median');
+      t.integer('average');
+    }),
+
+    knex.schema.raw('create index dailysales_name_idx on daily_sales("name");'),
+    knex.schema.raw('create index dailysales_internal_idx on daily_sales("internal");'),
+    knex.schema.raw('create index dailysales_rarity_idx on daily_sales("rarity");'),
+    knex.schema.raw('create index dailysales_type_idx on daily_sales("type");'),
+    knex.schema.raw('create index dailysales_setid_idx on daily_sales("setid");'),
+    knex.schema.raw('create index dailysales_currency_idx on daily_sales("currency");'),
+    knex.schema.raw('create index dailysales_date_idx on daily_sales("date");'),
 
 
-    knex.schema.raw('create unique index u_idx2 on daily_article_sales(name, date, currency);'),
+    /*******************************************************
+                        DAILY_STATS TABLE
+    *******************************************************/
+    knex.schema.createTableIfNotExists('daily_stats', function(t) {
+      t.bigIncrements().primary();
+      t.charset('utf8');
+      t.date('date');
+      t.string('currency');
+      t.integer('total');
+      t.integer('quantity')
+    }),
 
-    // daily history of all articles
-    knex.schema.raw('create materialized view economy_daily_history as \
-                     select date, rarity, currency, count(1)::int as quantity, sum(price)::int as total, avg(price)::int as avg, min(price) as min, max(price) as max \
-                     from sales \
-                     group by currency, date, rarity \
-                     order by date, currency, rarity;'),
-
-
-    knex.schema.raw('create unique index u_idx3 on economy_daily_history(date, rarity, currency);'),
-
+    knex.schema.raw('create index dailystats_date_idx on daily_stats("date");')
 
   ]);
 };
@@ -63,20 +83,38 @@ exports.up = function(knex, Promise) {
 exports.down = function(knex, Promise) {
   return Promise.all([
 
-
-    knex.schema.raw('drop materialized view if exists economy_daily_history;'),
-    knex.schema.raw('drop materialized view if exists daily_article_sales;'),
-    knex.schema.raw('drop materialized view if exists distinct_articles;'),
-
+    /*******************************************************
+                        SALES TABLE
+    *******************************************************/
     knex.schema.dropTableIfExists('sales'),
 
-    knex.schema.raw('drop index if exists sales_date_idx;'),
-    knex.schema.raw('drop index if exists sales_internal_idx;'),
     knex.schema.raw('drop index if exists sales_name_idx;'),
-    knex.schema.raw('drop index if exists sales_currency_idx;'),
+    knex.schema.raw('drop index if exists sales_internal_idx;'),
     knex.schema.raw('drop index if exists sales_rarity_idx;'),
     knex.schema.raw('drop index if exists sales_type_idx;'),
-    knex.schema.raw('drop index if exists sales_uuid_idx;')
+    knex.schema.raw('drop index if exists sales_setid_idx;'),
+    knex.schema.raw('drop index if exists sales_currency_idx;'),
+    knex.schema.raw('drop index if exists sales_date_idx;'),
+
+    /*******************************************************
+                        DAILY_SALES TABLE
+    *******************************************************/
+    knex.schema.dropTableIfExists('daily_sales'),
+
+    knex.schema.raw('drop index if exists dailysales_name_idx;'),
+    knex.schema.raw('drop index if exists dailysales_internal_idx;'),
+    knex.schema.raw('drop index if exists dailysales_rarity_idx;'),
+    knex.schema.raw('drop index if exists dailysales_type_idx;'),
+    knex.schema.raw('drop index if exists dailysales_setid_idx;'),
+    knex.schema.raw('drop index if exists dailysales_currency_idx;'),
+    knex.schema.raw('drop index if exists dailysales_date_idx;'),
+
+    /*******************************************************
+                        DAILY_STATS TABLE
+    *******************************************************/
+    knex.schema.dropTableIfExists('daily_stats'),
+
+    knex.schema.raw('drop index if exists dailystats_date_idx')
 
   ]);
 

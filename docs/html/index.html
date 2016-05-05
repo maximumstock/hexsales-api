@@ -3,164 +3,16 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
-    <title>v1 documentation</title>
+    <title>API Index</title>
     <link type="text/css" rel="stylesheet" href="assets/css/github-markdown.css">
     <link type="text/css" rel="stylesheet" href="assets/css/pilcrow.css">
     <link type="text/css" rel="stylesheet" href="assets/css/hljs-github.min.css"/>
   </head>
   <body>
-    <article class="markdown-body"><h1 id="v1-documentation"><a class="header-link" href="#v1-documentation"></a>v1 documentation</h1>
-<h2 id="articles"><a class="header-link" href="#articles"></a>Articles</h2>
-<p>All types within the world of HEX (eg. cards, equipment, packs, etc.), are represented by <code>articles</code> in this API.</p>
-<p>GET <a href="/v1/articles"><code>/v1/articles</code></a></p>
-<p>Returns an array of all articles.</p>
-<p>Optional Parameters:</p>
+    <article class="markdown-body"><h2 id="api-index"><a class="header-link" href="#api-index"></a>API Index</h2>
 <ul class="list">
-<li><code>limit</code> - Integer - Limits the quantity of returned results (default: 25).</li>
-<li><code>offset</code> - Integer - Skips <code>offset</code> articles before returning (default: 0).</li>
+<li><a href="v1">v1</a></li>
 </ul>
-<hr>
-<p>GET <code>/v1/articles/:name</code></p>
-<p>Returns all data for the article with name <code>:name</code>. If there is none, a <code>404</code> response is returned.</p>
-<p>Example: <a href="/v1/articles/Vampire King"><code>/v1/articles/Vampire King</code></a></p>
-<pre class="hljs"><code>{
-  <span class="hljs-string">"name"</span>: <span class="hljs-string">"Wrathwood Colossus AA"</span>,   // extended name (depending on `aa` <span class="hljs-keyword">and</span> `ea`; <span class="hljs-keyword">if</span> you request the <span class="hljs-type">AA</span> version <span class="hljs-keyword">of</span> a card, it's name <span class="hljs-keyword">is</span> extended by <span class="hljs-string">" AA"</span>; theoretically, once extended art versions are distinguished <span class="hljs-keyword">in</span> <span class="hljs-type">HexEnt</span>'s data dumps, an extended <span class="hljs-keyword">and</span> alternate art version <span class="hljs-keyword">of</span> <span class="hljs-type">Wrathwood</span> <span class="hljs-type">Colossus</span> would be called <span class="hljs-string">"Wrathwood Colossus EAA"</span>)
-  <span class="hljs-string">"internal"</span>: <span class="hljs-string">"Wrathwood Colossus"</span>,  // internal name <span class="hljs-keyword">from</span> <span class="hljs-type">HexEnt</span>'s auction house dumps
-  <span class="hljs-string">"uuid"</span>: <span class="hljs-string">"054ddfcc-61f1-49d1-8287-37fb35a0c03d"</span>,   // official uuid, <span class="hljs-keyword">if</span> one can be found, otherwise null
-  <span class="hljs-string">"type"</span>: <span class="hljs-string">"Card"</span>,   // <span class="hljs-keyword">type</span> <span class="hljs-keyword">of</span> the article, eg. <span class="hljs-string">"Card"</span>, <span class="hljs-string">"Equipment"</span> <span class="hljs-keyword">or</span> <span class="hljs-string">"Pack"</span>,
-  <span class="hljs-string">"rarity"</span>: <span class="hljs-string">"Epic"</span>, // rarity <span class="hljs-keyword">of</span> the article; might be null
-  <span class="hljs-string">"setid"</span>: <span class="hljs-string">"001"</span>,
-  <span class="hljs-string">"aa"</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-string">"ea"</span>: <span class="hljs-literal">false</span>
-}</code></pre><hr>
-<p>GET <code>/v1/articles/:name/summaries</code></p>
-<p>Returns a JSON object containing summarizing sales for the specified article <code>:name</code> for a specified timespan for each currency. If there is no article <code>:name</code>, a <code>404</code> response is returned.</p>
-<p>Optional Parameters:</p>
-<ul class="list">
-<li><code>start</code> - String - A valid date representation, such as &quot;2016-01-01&quot; (default: the date for the time of the request in CET timezone - 31 days)</li>
-<li><code>end</code> - String - same as above (default: the date of the time of the request in CET timezone)</li>
-</ul>
-<p>Example 1: <a href="/v1/articles/Wrathwood Colossus/summaries"><code>/v1/articles/Wrathwood Colossus/summaries</code></a>: Last months data</p>
-<pre class="hljs"><code>{
-  <span class="hljs-attr">"platinum"</span>: {
-    <span class="hljs-attr">"currency"</span>: <span class="hljs-string">"Platinum"</span>,
-    <span class="hljs-attr">"avg"</span>: <span class="hljs-number">81</span>,
-    <span class="hljs-attr">"median"</span>: <span class="hljs-number">50</span>,
-    <span class="hljs-attr">"min"</span>: <span class="hljs-number">30</span>,
-    <span class="hljs-attr">"max"</span>: <span class="hljs-number">215</span>,
-    <span class="hljs-attr">"total"</span>: <span class="hljs-number">1697</span>,
-    <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">21</span>
-  },
-  <span class="hljs-attr">"gold"</span>: {
-    <span class="hljs-attr">"currency"</span>: <span class="hljs-string">"Gold"</span>,
-    <span class="hljs-attr">"avg"</span>: <span class="hljs-number">7690</span>,
-    <span class="hljs-attr">"median"</span>: <span class="hljs-number">7500</span>,
-    <span class="hljs-attr">"min"</span>: <span class="hljs-number">2</span>,
-    <span class="hljs-attr">"max"</span>: <span class="hljs-number">14900</span>,
-    <span class="hljs-attr">"total"</span>: <span class="hljs-number">76904</span>,
-    <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">10</span>
-  }
-}</code></pre><p>Example 2: <a href="/v1/articles/Wrathwood Colossus/summaries?start=2014-12-23&end=2016-04-23"><code>/v1/articles/Wrathwood Colossus/summaries?start=2014-12-23&amp;end=2016-04-23</code></a>:</p>
-<pre class="hljs"><code>{
-  <span class="hljs-attr">"platinum"</span>: {
-    <span class="hljs-attr">"currency"</span>: <span class="hljs-string">"Platinum"</span>,
-    <span class="hljs-attr">"avg"</span>: <span class="hljs-number">63</span>,
-    <span class="hljs-attr">"median"</span>: <span class="hljs-number">54</span>,
-    <span class="hljs-attr">"min"</span>: <span class="hljs-number">30</span>,
-    <span class="hljs-attr">"max"</span>: <span class="hljs-number">320</span>,
-    <span class="hljs-attr">"total"</span>: <span class="hljs-number">67196</span>,
-    <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">1071</span>
-  },
-  <span class="hljs-attr">"gold"</span>: {
-    <span class="hljs-attr">"currency"</span>: <span class="hljs-string">"Gold"</span>,
-    <span class="hljs-attr">"avg"</span>: <span class="hljs-number">7975</span>,
-    <span class="hljs-attr">"median"</span>: <span class="hljs-number">7375</span>,
-    <span class="hljs-attr">"min"</span>: <span class="hljs-number">2</span>,
-    <span class="hljs-attr">"max"</span>: <span class="hljs-number">111111</span>,
-    <span class="hljs-attr">"total"</span>: <span class="hljs-number">2591730</span>,
-    <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">325</span>
-  }
-}</code></pre><hr>
-<p>GET <code>/v1/articles/:name/histories</code></p>
-<p>Returns a JSON object with daily summary data for each currency for the article <code>:name</code>. If the article <code>:name</code> does not exist, a <code>404</code> response is returned.</p>
-<p>Optional Parameters:</p>
-<ul class="list">
-<li><code>start</code> - String - A valid date representation, such as &quot;2016-01-01&quot; (default: the date for the time of the request in CET timezone - 3 months)</li>
-<li><code>end</code> - String - same as above (default: the date of the time of the request in CET timezone)</li>
-</ul>
-<p>Example: <a href="/v1/articles/Wrathwood Colossus/histories"><code>/v1/articles/Wrathwood Colossus/histories</code></a> (excerpt)</p>
-<pre class="hljs"><code>{
-  <span class="hljs-string">"platinum"</span>: <span class="hljs-meta">[</span>
-    {
-      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-01-24T00:00:00.000Z"</span>, <span class="hljs-comment">// date</span>
-      <span class="hljs-string">"c"</span>: <span class="hljs-string">"Platinum"</span>,                 <span class="hljs-comment">// currency</span>
-      <span class="hljs-string">"a"</span>: <span class="hljs-number">48</span>,                         <span class="hljs-comment">// average price for that day</span>
-      <span class="hljs-string">"m"</span>: <span class="hljs-number">49</span>,                         <span class="hljs-comment">// median price for that day</span>
-      <span class="hljs-string">"mi"</span>: <span class="hljs-number">40</span>,                        <span class="hljs-comment">// minimum price for that day</span>
-      <span class="hljs-string">"ma"</span>: <span class="hljs-number">60</span>,                        <span class="hljs-comment">// maximum price for that day</span>
-      <span class="hljs-string">"t"</span>: <span class="hljs-number">339</span>,                        <span class="hljs-comment">// total currency spent that day</span>
-      <span class="hljs-string">"q"</span>: <span class="hljs-number">7</span>                           <span class="hljs-comment">// total quantity of units sold that day</span>
-    },
-    {
-      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-01-25T00:00:00.000Z"</span>,
-      <span class="hljs-string">"c"</span>: <span class="hljs-string">"Platinum"</span>,
-      <span class="hljs-string">"a"</span>: <span class="hljs-number">50</span>,
-      <span class="hljs-string">"m"</span>: <span class="hljs-number">50</span>,
-      <span class="hljs-string">"mi"</span>: <span class="hljs-number">49</span>,
-      <span class="hljs-string">"ma"</span>: <span class="hljs-number">50</span>,
-      <span class="hljs-string">"t"</span>: <span class="hljs-number">99</span>,
-      <span class="hljs-string">"q"</span>: <span class="hljs-number">2</span>
-    }, <span class="hljs-attr">...</span>
-  <span class="hljs-meta">]</span>,
-  "gold": <span class="hljs-meta">[</span><span class="hljs-attr">...</span><span class="hljs-meta">]</span>
-}</code></pre><hr>
-<p>POST <code>/v1/articles</code></p>
-<p>Let&#39;s you search for all articles with certain attribute values.</p>
-<p>Optional Parameters:</p>
-<ul class="list">
-<li><code>name</code> - String - The name of the searched article.</li>
-<li><code>rarity</code> - String - The rarity of the searched articles.</li>
-<li><code>setid</code> - String - The set id of the searched articles.</li>
-<li><code>type</code> - String - The type of the searched articles.</li>
-<li><code>uuid</code> - String - The uuid of the searched article.</li>
-<li><code>aa</code> - Boolean - If true, only alternate art versions are found.</li>
-<li><code>limit</code> - Integer - Limits the quantity of returned results (default: 25).</li>
-<li><code>offset</code> - Integer - Skips <code>offset</code> articles before returning (default: 0).</li>
-<li><code>contains</code> - Boolean - If true, all articles with a name containing <code>name</code> will be searched (case insensitive), instead of exact matches (case sensitive)</li>
-</ul>
-<p>Example: POST <code>/v1/articles/search</code> with request body &quot;{aa: true}&quot;</p>
-<pre class="hljs"><code>[
-  {
-    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Adamanthian Scrivener AA"</span>,
-    <span class="hljs-attr">"internal"</span>: <span class="hljs-string">"Adamanthian Scrivener"</span>,
-    <span class="hljs-attr">"uuid"</span>: <span class="hljs-string">"d2222e6c-c8f8-4dad-b6d1-c0aacd3fc8f0"</span>,
-    <span class="hljs-attr">"type"</span>: <span class="hljs-string">"Card"</span>,
-    <span class="hljs-attr">"rarity"</span>: <span class="hljs-string">"Epic"</span>,
-    <span class="hljs-attr">"setid"</span>: <span class="hljs-string">"001"</span>,
-    <span class="hljs-attr">"aa"</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-attr">"ea"</span>: <span class="hljs-literal">false</span>
-  },
-  {
-    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Arborean Rootfather AA"</span>,
-    <span class="hljs-attr">"internal"</span>: <span class="hljs-string">"Arborean Rootfather"</span>,
-    <span class="hljs-attr">"uuid"</span>: <span class="hljs-string">"9ef979ba-93c4-49dc-94a7-68be93806df4"</span>,
-    <span class="hljs-attr">"type"</span>: <span class="hljs-string">"Card"</span>,
-    <span class="hljs-attr">"rarity"</span>: <span class="hljs-string">"Epic"</span>,
-    <span class="hljs-attr">"setid"</span>: <span class="hljs-string">"002"</span>,
-    <span class="hljs-attr">"aa"</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-attr">"ea"</span>: <span class="hljs-literal">false</span>
-  }, ...
-]</code></pre><h2 id="economy"><a class="header-link" href="#economy"></a>Economy</h2>
-<p>Under this I&#39;d like to group all data that isn&#39;t specific to a certain article.</p>
-<p>GET <code>/v1/economy/histories</code></p>
-<p>Returns a JSON object with daily summary data for each currency for all sales in the specified timeframe.</p>
-<p>Optional Parameters:</p>
-<ul class="list">
-<li><code>start</code> - String - A valid date representation, such as &quot;2016-01-01&quot; (default: the date for the time of the request in CET timezone - 3 months)</li>
-<li><code>end</code> - String - same as above (default: the date of the time of the request in CET timezone)</li>
-</ul>
-<p>Example: <a href="/v1/economy/histories"><code>/v1/economy/histories</code></a></p>
-<p>Looks exactly the same as <code>/v1/articles/:name/histories</code></p>
     </article>
   </body>
 </html>
