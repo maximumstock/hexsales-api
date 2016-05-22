@@ -15,13 +15,8 @@
 <p>GET <a href="/v1/articles"><code>/v1/articles</code></a></p>
 <p>Returns an array of all articles.</p>
 <p>Optional Parameters:</p>
-<ul class="list">
-<li><code>limit</code> - Integer - Limits the quantity of returned results (default: 25).<ul class="list">
-<li><code>offset</code> - Integer - Skips <code>offset</code> articles before returning (default: 0).</li>
-</ul>
-</li>
-</ul>
-<hr>
+<pre class="hljs"><code>* <span class="hljs-string">`limit`</span> - Integer - Limits the quantity <span class="hljs-keyword">of</span> returned results (<span class="hljs-keyword">default</span>: <span class="hljs-number">25</span>).
+* <span class="hljs-string">`offset`</span> - Integer - Skips <span class="hljs-string">`offset`</span> articles before returning (<span class="hljs-keyword">default</span>: <span class="hljs-number">0</span>).</code></pre><hr>
 <p>GET <code>/v1/articles/:name</code></p>
 <p>Returns all data for the article with name <code>:name</code>. If there is none, a <code>404</code> response is returned.</p>
 <p>Example: <a href="/v1/articles/Vampire King"><code>/v1/articles/Vampire King</code></a></p>
@@ -33,11 +28,8 @@
 <p>GET <code>/v1/articles/:name/summaries</code></p>
 <p>Returns a JSON object containing summarizing sales for the specified article <code>:name</code> for a specified timespan for each currency. If there is no article <code>:name</code>, a <code>404</code> response is returned.</p>
 <p>Optional Parameters:</p>
-<ul class="list">
-<li><code>start</code> - String - A valid date representation, such as &quot;2016-01-01&quot; (default: the date for the time of the request in CET timezone - 31 days)</li>
-<li><code>end</code> - String - same as above (default: the date of the time of the request in CET timezone)</li>
-</ul>
-<p>Example 1: <a href="/v1/articles/Wrathwood Colossus/summaries"><code>/v1/articles/Wrathwood Colossus/summaries</code></a>: Last months data</p>
+<pre class="hljs"><code>* `<span class="hljs-built_in">start</span>` - String - A valid <span class="hljs-built_in">date</span> representation, such <span class="hljs-keyword">as</span> <span class="hljs-string">"2016-01-01"</span> (default: <span class="hljs-keyword">the</span> <span class="hljs-built_in">date</span> <span class="hljs-keyword">for</span> <span class="hljs-keyword">the</span> <span class="hljs-built_in">time</span> <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> request <span class="hljs-keyword">in</span> CET timezone - <span class="hljs-number">31</span> days)
+* `<span class="hljs-keyword">end</span>` - String - same <span class="hljs-keyword">as</span> above (default: <span class="hljs-keyword">the</span> <span class="hljs-built_in">date</span> <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> <span class="hljs-built_in">time</span> <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> request <span class="hljs-keyword">in</span> CET timezone)</code></pre><p>Example 1: <a href="/v1/articles/Wrathwood Colossus/summaries"><code>/v1/articles/Wrathwood Colossus/summaries</code></a>: Last months data</p>
 <pre class="hljs"><code>{
   <span class="hljs-attr">"platinum"</span>: {
     <span class="hljs-attr">"currency"</span>: <span class="hljs-string">"Platinum"</span>,
@@ -81,10 +73,8 @@
 <p>GET <code>/v1/articles/:name/histories</code></p>
 <p>Returns a JSON object with daily summary data for each currency for the article <code>:name</code>. If the article <code>:name</code> does not exist, a <code>404</code> response is returned.</p>
 <p>Optional Parameters:</p>
-<pre class="hljs"><code>* `<span class="hljs-built_in">start</span>` - String - A valid <span class="hljs-built_in">date</span> representation, such <span class="hljs-keyword">as</span> <span class="hljs-string">"2016-01-01"</span> (default: <span class="hljs-keyword">the</span> <span class="hljs-built_in">date</span> <span class="hljs-keyword">for</span> <span class="hljs-keyword">the</span> <span class="hljs-built_in">time</span> <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> request <span class="hljs-keyword">in</span> CET timezone - <span class="hljs-number">3</span> months)</code></pre><ul class="list">
-<li><code>end</code> - String - same as above (default: the date of the time of the request in CET timezone)</li>
-</ul>
-<p>Example: <a href="/v1/articles/Wrathwood Colossus/histories"><code>/v1/articles/Wrathwood Colossus/histories</code></a> (excerpt)</p>
+<pre class="hljs"><code>* `<span class="hljs-built_in">start</span>` - String - A valid <span class="hljs-built_in">date</span> representation, such <span class="hljs-keyword">as</span> <span class="hljs-string">"2016-01-01"</span> (default: <span class="hljs-keyword">the</span> <span class="hljs-built_in">date</span> <span class="hljs-keyword">for</span> <span class="hljs-keyword">the</span> <span class="hljs-built_in">time</span> <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> request <span class="hljs-keyword">in</span> CET timezone - <span class="hljs-number">3</span> months)
+* `<span class="hljs-keyword">end</span>` - String - same <span class="hljs-keyword">as</span> above (default: <span class="hljs-keyword">the</span> <span class="hljs-built_in">date</span> <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> <span class="hljs-built_in">time</span> <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> request <span class="hljs-keyword">in</span> CET timezone)</code></pre><p>Example: <a href="/v1/articles/Wrathwood Colossus/histories"><code>/v1/articles/Wrathwood Colossus/histories</code></a> (excerpt)</p>
 <pre class="hljs"><code>{
   <span class="hljs-string">"platinum"</span>: <span class="hljs-meta">[</span>
     {

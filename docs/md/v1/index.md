@@ -8,9 +8,9 @@ GET <a href="/v1/articles">`/v1/articles`</a>
 Returns an array of all articles.
 
 Optional Parameters:
- 
- * `limit` - Integer - Limits the quantity of returned results (default: 25).
-  * `offset` - Integer - Skips `offset` articles before returning (default: 0).
+
+* `limit` - Integer - Limits the quantity of returned results (default: 25).
+* `offset` - Integer - Skips `offset` articles before returning (default: 0).
 
 ---
 
@@ -34,8 +34,8 @@ Returns a JSON object containing summarizing sales for the specified article `:n
 
 Optional Parameters:
 
-  * `start` - String - A valid date representation, such as "2016-01-01" (default: the date for the time of the request in CET timezone - 31 days)
-  * `end` - String - same as above (default: the date of the time of the request in CET timezone)
+* `start` - String - A valid date representation, such as "2016-01-01" (default: the date for the time of the request in CET timezone - 31 days)
+* `end` - String - same as above (default: the date of the time of the request in CET timezone)
 
 Example 1: <a href="/v1/articles/Wrathwood Colossus/summaries">`/v1/articles/Wrathwood Colossus/summaries`</a>: Last months data
 
@@ -90,9 +90,9 @@ GET `/v1/articles/:name/histories`
 Returns a JSON object with daily summary data for each currency for the article `:name`. If the article `:name` does not exist, a `404` response is returned.
 
 Optional Parameters:
-  
-	* `start` - String - A valid date representation, such as "2016-01-01" (default: the date for the time of the request in CET timezone - 3 months)
-  * `end` - String - same as above (default: the date of the time of the request in CET timezone)
+
+* `start` - String - A valid date representation, such as "2016-01-01" (default: the date for the time of the request in CET timezone - 3 months)
+* `end` - String - same as above (default: the date of the time of the request in CET timezone)
 
 Example: <a href="/v1/articles/Wrathwood Colossus/histories">`/v1/articles/Wrathwood Colossus/histories`</a> (excerpt)
 
@@ -130,12 +130,12 @@ Let's you search for all articles with certain attribute values.
 
 Optional Parameters:
 
-  * `name` - String - The name of the searched article.
-  * `rarity` - String - The rarity of the searched articles.
-  * `type` - String - The type of the searched articles.
-  * `limit` - Integer - Limits the quantity of returned results (default: 25).
-  * `offset` - Integer - Skips `offset` articles before returning (default: 0).
-  * `contains` - Boolean - If true, all articles with a name containing `name` will be searched (case insensitive), instead of exact matches (case sensitive)
+* `name` - String - The name of the searched article.
+* `rarity` - String - The rarity of the searched articles.
+* `type` - String - The type of the searched articles.
+* `limit` - Integer - Limits the quantity of returned results (default: 25).
+* `offset` - Integer - Skips `offset` articles before returning (default: 0).
+* `contains` - Boolean - If true, all articles with a name containing `name` will be searched (case insensitive), instead of exact matches (case sensitive)
 
 Example: POST `/v1/articles/search` with request body "{rarity: 'Epic'}"
 
@@ -164,8 +164,8 @@ Returns a JSON object with daily summary data for each currency for all sales in
 
 Optional Parameters:
 
-  * `start` - String - A valid date representation, such as "2016-01-01" (default: the date for the time of the request in CET timezone - 3 months)
-  * `end` - String - same as above (default: the date of the time of the request in CET timezone)
+* `start` - String - A valid date representation, such as "2016-01-01" (default: the date for the time of the request in CET timezone - 3 months)
+* `end` - String - same as above (default: the date of the time of the request in CET timezone)
 
 Example: <a href="/v1/economy/histories">`/v1/economy/histories`</a>
 
