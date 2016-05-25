@@ -11,7 +11,7 @@ exports.up = function(knex, Promise) {
       t.bigIncrements().primary();
       t.charset('utf8');
       // sale related data
-      t.string('name'); // modified internal string
+	  t.string('name'); // modified internal string
       t.string('internal');
       t.string('rarity');
       t.string('setid');
