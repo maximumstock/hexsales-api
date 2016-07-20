@@ -1,5 +1,12 @@
 # v1 documentation
 
+## Changelog
+
+### 2016-07-20
+* Added `/stats/pricelist` resource - list of summary data (avg/min/max price, sold quantity) over different timespans for all articles at once
+
+---
+
 ## Articles
 All types within the world of HEX (eg. cards, equipment, packs, etc.), are represented by `articles` in this API.
 
@@ -214,3 +221,44 @@ Example: So <a href="/v1/economy/mostsold?limit5">`/v1/economy/mostsold?limit=5`
 	    }],
 	    "gold": [...]
 	}
+
+---
+
+## Stats
+Under `/stats` I'll collect some different endpoints that don't fit the rest.
+
+GET `/v1/stats/pricelist`
+
+Returns a collection of summary data for each article for each currency. Basically it is like `/v1/articles/:name/summaries` but for all articles and for different timespans at once.
+Ideally you want to use this to calculate prices of decks/collections of articles.
+
+Example: `/v1/stats/pricelist` (excerpt)
+
+    {
+      "gold": {...},
+      "platinum": {
+        "Vampire King": {
+          "3": {          // data for last 3 days
+            "q": 17,      // quantity sold
+            "t": 69194,   // total currency spent
+            "mi": 3200,   // minimum price for the last 3 days
+            "ma": 4695,   // maximum price for the last 3 days
+            "a": 4070     // average price for the last 3 days
+          },
+          "7": {          // data for last 7 days
+            "q": 45,
+            "t": 174190,
+            "mi": 3016,
+            "ma": 4695,
+            "a": 3870
+          },
+          "14": {          // data for last 14 days
+            "q": 81,
+            "t": 299856,
+            "mi": 3016,
+            "ma": 4695,
+            "a": 3701
+          }
+        }, ...
+      }
+    }

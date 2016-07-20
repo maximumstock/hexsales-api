@@ -10,6 +10,12 @@
   </head>
   <body>
     <article class="markdown-body"><h1 id="v1-documentation"><a class="header-link" href="#v1-documentation"></a>v1 documentation</h1>
+<h2 id="changelog"><a class="header-link" href="#changelog"></a>Changelog</h2>
+<h3 id="2016-07-20"><a class="header-link" href="#2016-07-20"></a>2016-07-20</h3>
+<ul class="list">
+<li>Added <code>/stats/pricelist</code> resource - list of summary data (avg/min/max price, sold quantity) over different timespans for all articles at once</li>
+</ul>
+<hr>
 <h2 id="articles"><a class="header-link" href="#articles"></a>Articles</h2>
 <p>All types within the world of HEX (eg. cards, equipment, packs, etc.), are represented by <code>articles</code> in this API.</p>
 <p>GET <a href="/v1/articles"><code>/v1/articles</code></a></p>
@@ -182,6 +188,40 @@
         <span class="hljs-attr">"avg"</span>: <span class="hljs-number">16</span>
     }],
     <span class="hljs-attr">"gold"</span>: [...]
+}</code></pre><hr>
+<h2 id="stats"><a class="header-link" href="#stats"></a>Stats</h2>
+<p>Under <code>/stats</code> I&#39;ll collect some different endpoints that don&#39;t fit the rest.</p>
+<p>GET <code>/v1/stats/pricelist</code></p>
+<p>Returns a collection of summary data for each article for each currency. Basically it is like <code>/v1/articles/:name/summaries</code> but for all articles and for different timespans at once.
+Ideally you want to use this to calculate prices of decks/collections of articles.</p>
+<p>Example: <code>/v1/stats/pricelist</code> (excerpt)</p>
+<pre class="hljs"><code>{
+  <span class="hljs-string">"gold"</span>: <span class="hljs-meta">{...}</span>,
+  <span class="hljs-string">"platinum"</span>: {
+    <span class="hljs-string">"Vampire King"</span>: {
+      <span class="hljs-string">"3"</span>: {          // data <span class="hljs-keyword">for</span> last <span class="hljs-number">3</span> days
+        <span class="hljs-string">"q"</span>: <span class="hljs-number">17</span>,      // quantity sold
+        <span class="hljs-string">"t"</span>: <span class="hljs-number">69194</span>,   // total currency spent
+        <span class="hljs-string">"mi"</span>: <span class="hljs-number">3200</span>,   // minimum price <span class="hljs-keyword">for</span> the last <span class="hljs-number">3</span> days
+        <span class="hljs-string">"ma"</span>: <span class="hljs-number">4695</span>,   // maximum price <span class="hljs-keyword">for</span> the last <span class="hljs-number">3</span> days
+        <span class="hljs-string">"a"</span>: <span class="hljs-number">4070</span>     // average price <span class="hljs-keyword">for</span> the last <span class="hljs-number">3</span> days
+      },
+      <span class="hljs-string">"7"</span>: {          // data <span class="hljs-keyword">for</span> last <span class="hljs-number">7</span> days
+        <span class="hljs-string">"q"</span>: <span class="hljs-number">45</span>,
+        <span class="hljs-string">"t"</span>: <span class="hljs-number">174190</span>,
+        <span class="hljs-string">"mi"</span>: <span class="hljs-number">3016</span>,
+        <span class="hljs-string">"ma"</span>: <span class="hljs-number">4695</span>,
+        <span class="hljs-string">"a"</span>: <span class="hljs-number">3870</span>
+      },
+      <span class="hljs-string">"14"</span>: {          // data <span class="hljs-keyword">for</span> last <span class="hljs-number">14</span> days
+        <span class="hljs-string">"q"</span>: <span class="hljs-number">81</span>,
+        <span class="hljs-string">"t"</span>: <span class="hljs-number">299856</span>,
+        <span class="hljs-string">"mi"</span>: <span class="hljs-number">3016</span>,
+        <span class="hljs-string">"ma"</span>: <span class="hljs-number">4695</span>,
+        <span class="hljs-string">"a"</span>: <span class="hljs-number">3701</span>
+      }
+    }, ...
+  }
 }</code></pre>    </article>
   </body>
 </html>
