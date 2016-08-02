@@ -11,7 +11,7 @@
     "no-unused-vars": 0,
     "no-undef": 1,
     "curly": [1, "all"],
-    "indent": [1, 2, {"SwitchCase": 1}],
+    "indent": [1, 4, {"SwitchCase": 1}],
     "eqeqeq": 2
   }
 }

@@ -6,11 +6,12 @@
 
 module.exports = {
 
-  port: process.env.PORT || 3000,
-  dbUrl: process.env.DBURL || 'pg://hexsalesapi:hexsalesapi@localhost:5432/hexsalesapilight',
+    port: process.env.PORT ||  3000,
+    dbUrl: process.env.DBURL || 'pg://hexsalesapi:hexsalesapi@localhost:5432/hexsalesapi',
 
-  cdnIndex: 'http://dl.hex.gameforge.com/auctionhouse/index.txt',
-  cdnRoot: 'http://dl.hex.gameforge.com/auctionhouse',
-  apiUrl: 'http://hexdbapi2.hexsales.net/v1/objects/search'
+    cdnIndex: 'http://dl.hex.gameforge.com/auctionhouse/index.txt',
+    cdnRoot: 'http://dl.hex.gameforge.com/auctionhouse',
+    apiUrl: 'http://hexdbapi2.hexsales.net/v1/objects/search',
 
+    articleNameSpecialCharacters: [',', '\'', ' '] 
 };
