@@ -11,11 +11,45 @@
   <body>
     <article class="markdown-body"><h1 id="v1-documentation"><a class="header-link" href="#v1-documentation"></a>v1 documentation</h1>
 <h2 id="changelog"><a class="header-link" href="#changelog"></a>Changelog</h2>
-<h3 id="2016-07-20"><a class="header-link" href="#2016-07-20"></a>2016-07-20</h3>
+<h4 id="2016-07-20"><a class="header-link" href="#2016-07-20"></a>2016-07-20</h4>
 <ul class="list">
 <li>Added <code>/stats/pricelist</code> resource - list of summary data (avg/min/max price, sold quantity) over different timespans for all articles at once</li>
 </ul>
-<hr>
+<h4 id="2016-08-06"><a class="header-link" href="#2016-08-06"></a>2016-08-06</h4>
+<ul class="list">
+<li>Moved <code>/economy/mostsold</code> to <code>/stats/mostsold</code></li>
+<li>Removed <code>/economy</code> endpoint</li>
+<li>Added <code>/histories</code> endpoint</li>
+<li>Added <code>/summaries</code> endpoint</li>
+</ul>
+<h2 id="api-overview"><a class="header-link" href="#api-overview"></a>API Overview</h2>
+<p>Here is a short overview over this API and it&#39;s functionality.</p>
+<ul class="list">
+<li><p>GET <code>/summaries</code>
+This lets you query for summarizing data. With this endpoint you can for example answer questions like <strong>&quot;How many Vampire Kings were bought between 2016-01-01 and 2016-05-01 for Platinum?</strong></p>
+</li>
+<li><p>GET <code>/histories</code>
+This also lets you query for summarizing data, but aggregates the data by day. So you could answer questions like <strong>&quot;How many Vampire Kings were bought between 2016-01-01 and 2016-05-01 for Platinum each day?</strong></p>
+</li>
+<li><p><code>/stats</code></p>
+<ul class="list">
+<li>GET <code>/stats/pricelist</code> - Gives you a big HashMap-like JSON object that contains price data for all articles for easy lookup</li>
+<li>GET <code>/stats/mostsold</code> - Gives you a list of the most sold articles for a timespan</li>
+</ul>
+</li>
+<li><p><code>/articles…</code></p>
+<ul class="list">
+<li>POST <code>/articles/search</code> - Let&#39;s you search for (known**) articles there are official AH sales for</li>
+<li>GET <code>/articles</code> - Gives you a list of all (known**) articles there are official AH sales for</li>
+<li>GET <code>/articles/:name</code> - Gives you details for a specific article (currently it&#39;s name, game uuid, rarity, type (cards, equipment, packs, …) and set it belongs to)</li>
+<li>GET <code>/articles/:name/histories</code> - This is similiar to <code>/histories</code>, but additionally gives you median values instead of just average price values</li>
+<li>GET <code>/articles/:name/summaries</code> - This is also similiar to <code>/summaries</code>; Also includes median price values instead of just average price values like <code>/summaries</code> does</li>
+</ul>
+</li>
+<li><p>GET <code>/sets</code> - Gives you a list of all (known**) sets of sold articles</p>
+</li>
+</ul>
+<p>** Additional article info like it&#39;s set or uuid is fetched from mining game files. This usually means that for all sold articles in the auction house there is data around, but it could be missing at one point in the future, which means that additional information (like the set of a card) is missing and therefore special API requests that for example query a summary of all legendary cards of a specific set might yield incorrect data.</p>
 <h2 id="articles"><a class="header-link" href="#articles"></a>Articles</h2>
 <p>All types within the world of HEX (eg. cards, equipment, packs, etc.), are represented by <code>articles</code> in this API.</p>
 <p>GET <a href="/v1/articles"><code>/v1/articles</code></a></p>
@@ -61,7 +95,7 @@
     <span class="hljs-attr">"total"</span>: <span class="hljs-number">76904</span>,
     <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">10</span>
   }
-}</code></pre><p>Example 2: <a href="/v1/articles/Wrathwood Colossus/summaries?start=2014-12-23&end=2016-04-23"><code>/v1/articles/Wrathwood Colossus/summaries?start=2014-12-23&amp;end=2016-04-23</code></a>:</p>
+}</code></pre><p>Example 2: <a href="/v1/articles/Wrathwood Colossus/summaries?start=2014-12-23&amp;end=2016-04-23"><code>/v1/articles/Wrathwood Colossus/summaries?start=2014-12-23&amp;end=2016-04-23</code></a>:</p>
 <pre class="hljs"><code>{
   <span class="hljs-attr">"platinum"</span>: {
     <span class="hljs-attr">"currency"</span>: <span class="hljs-string">"Platinum"</span>,
@@ -120,8 +154,10 @@
 <p>Optional Parameters:</p>
 <ul class="list">
 <li><code>name</code> - String - The name of the searched article.</li>
+<li><code>uuid</code> - String - The official game uuid of the searched article.</li>
 <li><code>rarity</code> - String - The rarity of the searched articles.</li>
 <li><code>type</code> - String - The type of the searched articles.</li>
+<li><code>set</code> - String - The set of the searched articles. Check <code>/v1/sets</code> for a list of all values.</li>
 <li><code>limit</code> - Integer - Limits the quantity of returned results (default: 25).</li>
 <li><code>offset</code> - Integer - Skips <code>offset</code> articles before returning (default: 0).</li>
 <li><code>contains</code> - Boolean - If true, all articles with a name containing <code>name</code> will be searched (case insensitive), instead of exact matches (case sensitive)</li>
@@ -138,63 +174,117 @@
     <span class="hljs-attr">"type"</span>: <span class="hljs-string">"Card"</span>,
     <span class="hljs-attr">"rarity"</span>: <span class="hljs-string">"Epic"</span>
   }, ...
-]</code></pre><h2 id="economy"><a class="header-link" href="#economy"></a>Economy</h2>
-<p>Under this I&#39;d like to group all data that isn&#39;t specific to a certain article.</p>
-<hr>
-<p>GET <code>/v1/economy/histories</code></p>
-<p>Returns a JSON object with daily summary data for each currency for all sales in the specified timeframe.</p>
+]</code></pre><hr>
+<h2 id="sets"><a class="header-link" href="#sets"></a>Sets</h2>
+<p>GET <a href="/v1/sets"><code>/v1/sets</code></a></p>
+<p>Returns an array of all set string values.</p>
+<p>Example: </p>
+<pre class="hljs"><code>[
+  <span class="hljs-string">"Armies of Myth"</span>,
+  <span class="hljs-string">"None Defined"</span>,
+  <span class="hljs-string">"Primal Dawn"</span>,
+  <span class="hljs-string">"PvE 01 Universal Card Set"</span>,
+  <span class="hljs-string">"PvE02 Universal Card Set"</span>,
+  <span class="hljs-string">"Set01 Kickstarter"</span>,
+  <span class="hljs-string">"Set01 PvE Arena"</span>,
+  <span class="hljs-string">"Set01 PvE Holiday"</span>,
+  <span class="hljs-string">"Set03 PvE Promo"</span>,
+  <span class="hljs-string">"Set04 PvE Promo"</span>,
+  <span class="hljs-string">"Shards of Fate"</span>,
+  <span class="hljs-string">"Shattered Destiny"</span>,
+  <span class="hljs-string">"UNSET"</span>
+]</code></pre><hr>
+<h2 id="histories"><a class="header-link" href="#histories"></a>Histories</h2>
+<p>GET <code>/v1/histories</code></p>
+<p>Unlike <code>/articles/:name/histories</code>, this endpoint lets you find historical data for more than one article.
+However, due to how I aggregate my data, this endpoint does not return any median price values.</p>
 <p>Optional Parameters:</p>
 <ul class="list">
-<li><code>start</code> - String - A valid date representation, such as &quot;2016-01-01&quot; (default: the date for the time of the request in CET timezone - 3 months)</li>
-<li><code>end</code> - String - same as above (default: the date of the time of the request in CET timezone)</li>
+<li><code>start</code> - String - Starting date of the timespan you want a history for (default: NOW() - 3 months)</li>
+<li><code>end</code> - String - Ending date of the timespan you want a history for (default: NOW())</li>
+<li><code>name</code> - String - The name of the searched article.</li>
+<li><code>uuid</code> - String - The official game uuid of the searched article.</li>
+<li><code>rarity</code> - String - The rarity of the searched articles.</li>
+<li><code>type</code> - String - The type of the searched articles.</li>
+<li><code>set</code> - String - The set of the searched articles. Check <code>/v1/sets</code> for a list of all values.</li>
+<li><code>currency</code> - String - The currency to filter upon.</li>
 </ul>
-<p>Example: <a href="/v1/economy/histories"><code>/v1/economy/histories</code></a></p>
-<p>Looks exactly the same as <code>/v1/articles/:name/histories</code></p>
-<hr>
-<p>GET <code>/v1/economy/mostsold</code></p>
-<p>Returns a list of most sold articles based on the specified parameters per currency.</p>
-<p>Optional Parameters:</p>
-<ul class="list">
-<li><code>start</code> - String - The start of the timespan to aggregate on (default: today - days)</li>
-<li><code>end</code> - String - The end of the timespan to aggregate on (default: today)</li>
-<li><code>limit</code> - Integer - The number of articles with most sales to return (default: 30)</li>
-</ul>
-<p>Example: So <a href="/v1/economy/mostsold?limit5"><code>/v1/economy/mostsold?limit=5</code></a> gives you the <strong>five</strong> most sold articles per currency of the last 3 days. For 2016-05-05:</p>
+<p>Example: GET <a href="/v1/histories?start=2016-08-03&amp;end=2016-08-06&amp;rarity=Legendary&amp;type=Card&amp;set=Shards of Fate"><code>/v1/histories?start=2016-08-03&amp;end=2016-08-06&amp;rarity=Legendary&amp;type=Card&amp;set=Shards of Fate</code></a></p>
+<p>This returns a history of all sales for legendary cards of Shards of Fate per currency between 2016-08-03 and 2016-08-06.</p>
 <pre class="hljs"><code>{
-    <span class="hljs-attr">"platinum"</span>: [{
-        <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Set 003 Booster Pack"</span>,
-        <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">5246</span>,
-        <span class="hljs-attr">"total"</span>: <span class="hljs-number">766272</span>,
-        <span class="hljs-attr">"avg"</span>: <span class="hljs-number">146</span>
-    }, {
-        <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Common Stardust"</span>,
-        <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">1834</span>,
-        <span class="hljs-attr">"total"</span>: <span class="hljs-number">4623</span>,
-        <span class="hljs-attr">"avg"</span>: <span class="hljs-number">2</span>
-    }, {
-        <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Uncommon Stardust"</span>,
-        <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">1591</span>,
-        <span class="hljs-attr">"total"</span>: <span class="hljs-number">5201</span>,
-        <span class="hljs-attr">"avg"</span>: <span class="hljs-number">3</span>
-    }, {
-        <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Set 001 Booster Pack"</span>,
-        <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">1152</span>,
-        <span class="hljs-attr">"total"</span>: <span class="hljs-number">197393</span>,
-        <span class="hljs-attr">"avg"</span>: <span class="hljs-number">171</span>
-    }, {
-        <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Rare Stardust"</span>,
-        <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">1073</span>,
-        <span class="hljs-attr">"total"</span>: <span class="hljs-number">17893</span>,
-        <span class="hljs-attr">"avg"</span>: <span class="hljs-number">16</span>
-    }],
-    <span class="hljs-attr">"gold"</span>: [...]
+  <span class="hljs-string">"platinum"</span>: [
+    {
+      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-08-02T22:00:00.000Z"</span>, // actually <span class="hljs-number">2016</span><span class="hljs-number">-08</span><span class="hljs-number">-03</span> but with timezone information
+      <span class="hljs-string">"t"</span>: <span class="hljs-number">56461</span>, // total platinum spent that day on legendary cards from Shards of Fate that day
+      <span class="hljs-string">"q"</span>: <span class="hljs-number">53</span> // total quantity of legendary cards from Shards of Fate sold that day
+    },
+    {
+      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-08-03T22:00:00.000Z"</span>,
+      <span class="hljs-string">"t"</span>: <span class="hljs-number">20929</span>,
+      <span class="hljs-string">"q"</span>: <span class="hljs-number">20</span>
+    },
+    {
+      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-08-04T22:00:00.000Z"</span>,
+      <span class="hljs-string">"t"</span>: <span class="hljs-number">16457</span>,
+      <span class="hljs-string">"q"</span>: <span class="hljs-number">24</span>
+    },
+    {
+      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-08-05T22:00:00.000Z"</span>,
+      <span class="hljs-string">"t"</span>: <span class="hljs-number">33750</span>,
+      <span class="hljs-string">"q"</span>: <span class="hljs-number">36</span>
+    }
+  ],
+  <span class="hljs-string">"gold"</span>: [
+    {
+      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-08-02T22:00:00.000Z"</span>,
+      <span class="hljs-string">"t"</span>: <span class="hljs-number">49500</span>,
+      <span class="hljs-string">"q"</span>: <span class="hljs-number">2</span>
+    },
+    {
+      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-08-03T22:00:00.000Z"</span>,
+      <span class="hljs-string">"t"</span>: <span class="hljs-number">59333</span>,
+      <span class="hljs-string">"q"</span>: <span class="hljs-number">2</span>
+    }
+  ]
+}</code></pre><hr>
+<h2 id="summaries"><a class="header-link" href="#summaries"></a>Summaries</h2>
+<p>GET <code>/v1/summaries</code></p>
+<p>Unlike <code>/articles/:name/summaries</code>, this endpoint lets you find summarizing data for more than one article.
+However, due to how I aggregate my data, this endpoint does not return any median price values.</p>
+<p>Optional Parameters:</p>
+<ul class="list">
+<li><code>start</code> - String - Starting date of the timespan you want a history for (default: NOW() - 3 months)</li>
+<li><code>end</code> - String - Ending date of the timespan you want a history for (default: NOW())</li>
+<li><code>name</code> - String - The name of the searched article.</li>
+<li><code>uuid</code> - String - The official game uuid of the searched article.</li>
+<li><code>rarity</code> - String - The rarity of the searched articles.</li>
+<li><code>type</code> - String - The type of the searched articles.</li>
+<li><code>set</code> - String - The set of the searched articles. Check <code>/v1/sets</code> for a list of all values.</li>
+<li><code>currency</code> - String - The currency to filter upon.</li>
+</ul>
+<p>Example: GET <a href="/v1/summaries?start=2016-08-03&amp;end=2016-08-06&amp;rarity=Legendary&amp;type=Card&amp;set=Shards of Fate"><code>/v1/summaries?start=2016-08-03&amp;end=2016-08-06&amp;rarity=Legendary&amp;type=Card&amp;set=Shards of Fate</code></a></p>
+<p>This summarizes all sales for legendary cards of Shards of Fate per currency between 2016-08-03 and 2016-08-06.</p>
+<pre class="hljs"><code>{
+  <span class="hljs-attr">"platinum"</span>: {
+    <span class="hljs-attr">"total"</span>: <span class="hljs-number">127597</span>,
+    <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">133</span>,
+    <span class="hljs-attr">"average"</span>: <span class="hljs-number">959</span>,
+    <span class="hljs-attr">"min"</span>: <span class="hljs-number">50</span>,
+    <span class="hljs-attr">"max"</span>: <span class="hljs-number">4500</span>
+  },
+  <span class="hljs-attr">"gold"</span>: {
+    <span class="hljs-attr">"total"</span>: <span class="hljs-number">108833</span>,
+    <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">4</span>,
+    <span class="hljs-attr">"average"</span>: <span class="hljs-number">27208</span>,
+    <span class="hljs-attr">"min"</span>: <span class="hljs-number">9500</span>,
+    <span class="hljs-attr">"max"</span>: <span class="hljs-number">40000</span>
+  }
 }</code></pre><hr>
 <h2 id="stats"><a class="header-link" href="#stats"></a>Stats</h2>
 <p>Under <code>/stats</code> I&#39;ll collect some different endpoints that don&#39;t fit the rest.</p>
 <p>GET <code>/v1/stats/pricelist</code></p>
-<p>Returns a collection of summary data for each article for each currency. Basically it is like <code>/v1/articles/:name/summaries</code> but for all articles and for different timespans at once.
-Ideally you want to use this to calculate prices of decks/collections of articles.</p>
-<p>Example: <code>/v1/stats/pricelist</code> (excerpt)</p>
+<p>Returns a collection of summary data for each article for each currency. Basically it is like <code>/v1/articles/:name/summaries</code> but for all articles and for different timespans at once. Ideally you want to use this to calculate prices of decks/collections of articles.</p>
+<p>Example: <a href="/v1/stats/pricelist"><code>/v1/stats/pricelist</code></a> (excerpt)</p>
 <pre class="hljs"><code>{
   <span class="hljs-string">"gold"</span>: <span class="hljs-meta">{...}</span>,
   <span class="hljs-string">"platinum"</span>: {
@@ -222,6 +312,50 @@ Ideally you want to use this to calculate prices of decks/collections of article
       }
     }, ...
   }
+}</code></pre><hr>
+<p>GET <code>/v1/stats/mostsold</code></p>
+<p>Returns a list of most sold articles based on the specified parameters per currency.</p>
+<p>Optional Parameters:</p>
+<ul class="list">
+<li><code>start</code> - String - The start of the timespan to aggregate on (default: today - days)</li>
+<li><code>end</code> - String - The end of the timespan to aggregate on (default: today)</li>
+<li><code>limit</code> - Integer - The number of articles with most sales to return (default: 30)</li>
+</ul>
+<p>Example: <a href="/v1/stats/mostsold?limit=5&amp;start=2016-05-05&amp;end=2016-05-10"><code>/v1/stats/mostsold?limit=5&amp;start=2016-05-05&amp;end=2016-05-10</code></a> gives you the <strong>five</strong> most sold articles per currency of between 2016-05-05 and 2016-05-10:</p>
+<pre class="hljs"><code>{
+  <span class="hljs-attr">"platinum"</span>: [
+    {
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Set 004 Booster Pack"</span>,
+      <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">2190</span>,
+      <span class="hljs-attr">"total"</span>: <span class="hljs-number">399256</span>,
+      <span class="hljs-attr">"avg"</span>: <span class="hljs-number">182</span>
+    },
+    {
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Set 003 Booster Pack"</span>,
+      <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">901</span>,
+      <span class="hljs-attr">"total"</span>: <span class="hljs-number">164306</span>,
+      <span class="hljs-attr">"avg"</span>: <span class="hljs-number">182</span>
+    },
+    {
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Rare Stardust"</span>,
+      <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">764</span>,
+      <span class="hljs-attr">"total"</span>: <span class="hljs-number">4995</span>,
+      <span class="hljs-attr">"avg"</span>: <span class="hljs-number">6</span>
+    },
+    {
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Common Stardust"</span>,
+      <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">742</span>,
+      <span class="hljs-attr">"total"</span>: <span class="hljs-number">1870</span>,
+      <span class="hljs-attr">"avg"</span>: <span class="hljs-number">2</span>
+    },
+    {
+      <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Uncommon Stardust"</span>,
+      <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">650</span>,
+      <span class="hljs-attr">"total"</span>: <span class="hljs-number">1573</span>,
+      <span class="hljs-attr">"avg"</span>: <span class="hljs-number">2</span>
+    }
+  ],
+  <span class="hljs-attr">"gold"</span>: [...]
 }</code></pre>    </article>
   </body>
 </html>

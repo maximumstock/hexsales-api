@@ -17,3 +17,5 @@ past auction house dumps and is apparently not going to do so, which would resul
 sources (such as doc-x' GUID-ified data dumps, which he offered to provide). Furthermore there is no real benefit as
 there is no official mapping from GUIDs to assets anyway and apparently those GUID values are not meant to uniquely
 identify assets anyway ([source](http://forums.cryptozoic.com/showthread.php?t=40975&page=23&p=508068#post508068)).
+
+UPDATE 2016-08-06: Added UUIDs to the database.
