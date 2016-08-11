@@ -146,7 +146,7 @@ Example: [`/v1/articles/Wrathwood Colossus/histories`](/v1/articles/Wrathwood Co
 {
   "platinum": [
     {
-      "d": "2016-01-24T00:00:00.000Z", // date
+      "d": "2016-01-24", 				// date
       "c": "Platinum",                 // currency
       "a": 48,                         // average price for that day
       "m": 49,                         // median price for that day
@@ -259,34 +259,34 @@ This returns a history of all sales for legendary cards of Shards of Fate per cu
 	{
 	  "platinum": [
 	    {
-	      "d": "2016-08-02T22:00:00.000Z", // actually 2016-08-03 but with timezone information
+	      "d": "2016-08-02", // actually 2016-08-03 but with timezone information
 	      "t": 56461, // total platinum spent that day on legendary cards from Shards of Fate that day
 	      "q": 53 // total quantity of legendary cards from Shards of Fate sold that day
 	    },
 	    {
-	      "d": "2016-08-03T22:00:00.000Z",
+	      "d": "2016-08-03",
 	      "t": 20929,
 	      "q": 20
 	    },
 	    {
-	      "d": "2016-08-04T22:00:00.000Z",
+	      "d": "2016-08-04",
 	      "t": 16457,
 	      "q": 24
 	    },
 	    {
-	      "d": "2016-08-05T22:00:00.000Z",
+	      "d": "2016-08-05",
 	      "t": 33750,
 	      "q": 36
 	    }
 	  ],
 	  "gold": [
 	    {
-	      "d": "2016-08-02T22:00:00.000Z",
+	      "d": "2016-08-02",
 	      "t": 49500,
 	      "q": 2
 	    },
 	    {
-	      "d": "2016-08-03T22:00:00.000Z",
+	      "d": "2016-08-03",
 	      "t": 59333,
 	      "q": 2
 	    }
