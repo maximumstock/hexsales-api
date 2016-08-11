@@ -259,7 +259,7 @@ This returns a history of all sales for legendary cards of Shards of Fate per cu
 	{
 	  "platinum": [
 	    {
-	      "d": "2016-08-02", // actually 2016-08-03 but with timezone information
+	      "d": "2016-08-02",
 	      "t": 56461, // total platinum spent that day on legendary cards from Shards of Fate that day
 	      "q": 53 // total quantity of legendary cards from Shards of Fate sold that day
 	    },
