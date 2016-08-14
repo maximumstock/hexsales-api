@@ -92,20 +92,18 @@ Example 1: [`/v1/articles/Wrathwood Colossus/summaries`](/v1/articles/Wrathwood 
 ```
 {
   "platinum": {
-    "currency": "Platinum",
-    "avg": 81,
+    "average": 81,
     "median": 50,
-    "min": 30,
-    "max": 215,
+    "minimum": 30,
+    "maximum": 215,
     "total": 1697,
     "quantity": 21
   },
   "gold": {
-    "currency": "Gold",
-    "avg": 7690,
+    "average": 7690,
     "median": 7500,
-    "min": 2,
-    "max": 14900,
+    "minimum": 2,
+    "maximum": 14900,
     "total": 76904,
     "quantity": 10
   }
@@ -117,20 +115,18 @@ Example 2: [`/v1/articles/Wrathwood Colossus/summaries?start=2014-12-23&end=2016
 ```
 {
   "platinum": {
-    "currency": "Platinum",
-    "avg": 63,
+    "average": 63,
     "median": 54,
-    "min": 30,
-    "max": 320,
+    "minimum": 30,
+    "maximum": 320,
     "total": 67196,
     "quantity": 1071
   },
   "gold": {
-    "currency": "Gold",
-    "avg": 7975,
+    "average": 7975,
     "median": 7375,
-    "min": 2,
-    "max": 111111,
+    "minimum": 2,
+    "maximum": 111111,
     "total": 2591730,
     "quantity": 325
   }
@@ -155,7 +151,6 @@ Example: [`/v1/articles/Wrathwood Colossus/histories`](/v1/articles/Wrathwood Co
   "platinum": [
     {
       "d": "2016-01-24", 				// date
-      "c": "Platinum",                 // currency
       "a": 48,                         // average price for that day
       "m": 49,                         // median price for that day
       "mi": 40,                        // minimum price for that day
@@ -165,7 +160,6 @@ Example: [`/v1/articles/Wrathwood Colossus/histories`](/v1/articles/Wrathwood Co
     },
     {
       "d": "2016-01-25T00:00:00.000Z",
-      "c": "Platinum",
       "a": 50,
       "m": 50,
       "mi": 49,
@@ -328,15 +322,15 @@ This summarizes all sales for legendary cards of Shards of Fate per currency bet
 	    "total": 127597,
 	    "quantity": 133,
 	    "average": 959,
-	    "min": 50,
-	    "max": 4500
+	    "minimum": 50,
+	    "maximum": 4500
 	  },
 	  "gold": {
 	    "total": 108833,
 	    "quantity": 4,
 	    "average": 27208,
-	    "min": 9500,
-	    "max": 40000
+	    "minimum": 9500,
+	    "maximum": 40000
 	  }
 	}
 
@@ -403,31 +397,41 @@ Example: [`/v1/stats/mostsold?limit=5&start=2016-05-05&end=2016-05-10`](/v1/stat
 	      "name": "Set 004 Booster Pack",
 	      "quantity": 2190,
 	      "total": 399256,
-	      "avg": 182
+	      "average": 182,
+	      "set": "...",
+	      "rarity": "..."
 	    },
 	    {
 	      "name": "Set 003 Booster Pack",
 	      "quantity": 901,
 	      "total": 164306,
-	      "avg": 182
+	      "average": 182,
+	      "set": "...",
+	      "rarity": "..."
 	    },
 	    {
 	      "name": "Rare Stardust",
 	      "quantity": 764,
 	      "total": 4995,
-	      "avg": 6
+	      "average": 6,
+	      "set": "...",
+	      "rarity": "..."
 	    },
 	    {
 	      "name": "Common Stardust",
 	      "quantity": 742,
 	      "total": 1870,
-	      "avg": 2
+	      "average": 2,
+	      "set": "...",
+	      "rarity": "..."
 	    },
 	    {
 	      "name": "Uncommon Stardust",
 	      "quantity": 650,
 	      "total": 1573,
-	      "avg": 2
+	      "average": 2,
+	      "set": "...",
+	      "rarity": "..."
 	    }
 	  ],
 	  "gold": [...]

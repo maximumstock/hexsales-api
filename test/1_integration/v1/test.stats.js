@@ -59,7 +59,7 @@ describe('stats', function() {
                 const row = result[currency][0];
                 expect(row).to.have.a.property('total');
                 expect(row).to.have.a.property('quantity');
-                expect(row).to.have.a.property('avg');
+                expect(row).to.have.a.property('average');
                 expect(row).to.have.a.property('name');
                 expect(row).to.have.a.property('rarity');
                 expect(row).to.have.a.property('set');
