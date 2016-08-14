@@ -13,5 +13,7 @@ module.exports = {
     cdnRoot: 'http://dl.hex.gameforge.com/auctionhouse',
     apiUrl: 'http://hexdbapi2.hexsales.net/v1/objects/search',
 
-    articleNameSpecialCharacters: [',', '\'', ' '] 
+    startDate: '2016-07-08',
+
+    articleNameSpecialCharacters: [',', '\'', ' ']
 };

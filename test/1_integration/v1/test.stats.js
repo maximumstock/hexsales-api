@@ -40,8 +40,8 @@ describe('stats', function() {
 
         it('should yield an object with data for each currency', function*() {
 
-            const start = '2016-01-01';
-            const end = '2016-01-03'
+            const start = '2016-08-01';
+            const end = '2016-08-10'
             const limit = 40;
 
             const res = yield request.get(`/v1/stats/mostsold?start=${start}&end=${end}&limit=${limit}`).expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
@@ -61,6 +61,8 @@ describe('stats', function() {
                 expect(row).to.have.a.property('quantity');
                 expect(row).to.have.a.property('avg');
                 expect(row).to.have.a.property('name');
+                expect(row).to.have.a.property('rarity');
+                expect(row).to.have.a.property('set');
 
             }
 

@@ -13,6 +13,12 @@
 - Added `/histories` endpoint
 - Added `/summaries` endpoint
 
+#### 2016-08-14
+
+- Unified return data formats for Summaries and Histories:
+    - Properties of summaries are non-shortened throughout the api (eg. `average` instead of `avg`, `minimum` instead of `min`, etc.)
+    - Properties of everything else (histories, pricelists) are always shortened to save bandwith (eg. `a` instead of `average`, `mi` instead of `minimum`)
+
 
 ## API Overview
 Here is a short overview over this API and it's functionality.
@@ -212,12 +218,11 @@ GET [`/v1/sets`](/v1/sets)
 
 Returns an array of all set string values.
 
-Example: 
+Example:
 
 ```
 [
   "Armies of Myth",
-  "None Defined",
   "Primal Dawn",
   "PvE 01 Universal Card Set",
   "PvE02 Universal Card Set",
@@ -228,7 +233,6 @@ Example:
   "Set04 PvE Promo",
   "Shards of Fate",
   "Shattered Destiny",
-  "UNSET"
 ]
 ```
 

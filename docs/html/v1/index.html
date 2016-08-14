@@ -22,6 +22,14 @@
 <li>Added <code>/histories</code> endpoint</li>
 <li>Added <code>/summaries</code> endpoint</li>
 </ul>
+<h4 id="2016-08-14"><a class="header-link" href="#2016-08-14"></a>2016-08-14</h4>
+<ul class="list">
+<li>Unified return data formats for Summaries and Histories:<ul class="list">
+<li>Properties of summaries are non-shortened throughout the api (eg. <code>average</code> instead of <code>avg</code>, <code>minimum</code> instead of <code>min</code>, etc.)</li>
+<li>Properties of everything else (histories, pricelists) are always shortened to save bandwith (eg. <code>a</code> instead of <code>average</code>, <code>mi</code> instead of <code>minimum</code>)</li>
+</ul>
+</li>
+</ul>
 <h2 id="api-overview"><a class="header-link" href="#api-overview"></a>API Overview</h2>
 <p>Here is a short overview over this API and it&#39;s functionality.</p>
 <ul class="list">
@@ -127,7 +135,7 @@ This also lets you query for summarizing data, but aggregates the data by day. S
 <pre class="hljs"><code>{
   <span class="hljs-string">"platinum"</span>: <span class="hljs-meta">[</span>
     {
-      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-01-24T00:00:00.000Z"</span>, <span class="hljs-comment">// date</span>
+      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-01-24"</span>,                 <span class="hljs-comment">// date</span>
       <span class="hljs-string">"c"</span>: <span class="hljs-string">"Platinum"</span>,                 <span class="hljs-comment">// currency</span>
       <span class="hljs-string">"a"</span>: <span class="hljs-number">48</span>,                         <span class="hljs-comment">// average price for that day</span>
       <span class="hljs-string">"m"</span>: <span class="hljs-number">49</span>,                         <span class="hljs-comment">// median price for that day</span>
@@ -178,10 +186,9 @@ This also lets you query for summarizing data, but aggregates the data by day. S
 <h2 id="sets"><a class="header-link" href="#sets"></a>Sets</h2>
 <p>GET <a href="/v1/sets"><code>/v1/sets</code></a></p>
 <p>Returns an array of all set string values.</p>
-<p>Example: </p>
+<p>Example:</p>
 <pre class="hljs"><code>[
   <span class="hljs-string">"Armies of Myth"</span>,
-  <span class="hljs-string">"None Defined"</span>,
   <span class="hljs-string">"Primal Dawn"</span>,
   <span class="hljs-string">"PvE 01 Universal Card Set"</span>,
   <span class="hljs-string">"PvE02 Universal Card Set"</span>,
@@ -192,7 +199,6 @@ This also lets you query for summarizing data, but aggregates the data by day. S
   <span class="hljs-string">"Set04 PvE Promo"</span>,
   <span class="hljs-string">"Shards of Fate"</span>,
   <span class="hljs-string">"Shattered Destiny"</span>,
-  <span class="hljs-string">"UNSET"</span>
 ]</code></pre><hr>
 <h2 id="histories"><a class="header-link" href="#histories"></a>Histories</h2>
 <p>GET <code>/v1/histories</code></p>
@@ -214,34 +220,34 @@ However, due to how I aggregate my data, this endpoint does not return any media
 <pre class="hljs"><code>{
   <span class="hljs-string">"platinum"</span>: [
     {
-      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-08-02T22:00:00.000Z"</span>, // actually <span class="hljs-number">2016</span><span class="hljs-number">-08</span><span class="hljs-number">-03</span> but with timezone information
+      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-08-02"</span>,
       <span class="hljs-string">"t"</span>: <span class="hljs-number">56461</span>, // total platinum spent that day on legendary cards from Shards of Fate that day
       <span class="hljs-string">"q"</span>: <span class="hljs-number">53</span> // total quantity of legendary cards from Shards of Fate sold that day
     },
     {
-      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-08-03T22:00:00.000Z"</span>,
+      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-08-03"</span>,
       <span class="hljs-string">"t"</span>: <span class="hljs-number">20929</span>,
       <span class="hljs-string">"q"</span>: <span class="hljs-number">20</span>
     },
     {
-      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-08-04T22:00:00.000Z"</span>,
+      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-08-04"</span>,
       <span class="hljs-string">"t"</span>: <span class="hljs-number">16457</span>,
       <span class="hljs-string">"q"</span>: <span class="hljs-number">24</span>
     },
     {
-      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-08-05T22:00:00.000Z"</span>,
+      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-08-05"</span>,
       <span class="hljs-string">"t"</span>: <span class="hljs-number">33750</span>,
       <span class="hljs-string">"q"</span>: <span class="hljs-number">36</span>
     }
   ],
   <span class="hljs-string">"gold"</span>: [
     {
-      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-08-02T22:00:00.000Z"</span>,
+      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-08-02"</span>,
       <span class="hljs-string">"t"</span>: <span class="hljs-number">49500</span>,
       <span class="hljs-string">"q"</span>: <span class="hljs-number">2</span>
     },
     {
-      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-08-03T22:00:00.000Z"</span>,
+      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-08-03"</span>,
       <span class="hljs-string">"t"</span>: <span class="hljs-number">59333</span>,
       <span class="hljs-string">"q"</span>: <span class="hljs-number">2</span>
     }

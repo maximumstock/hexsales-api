@@ -80,10 +80,10 @@ describe('articles', function() {
             const props = Object.keys(result);
             expect(props.length).to.not.equal(0);
             props.forEach(function(p) {
-                expect(result[p]).to.have.a.property('avg');
+                expect(result[p]).to.have.a.property('average');
                 expect(result[p]).to.have.a.property('median');
-                expect(result[p]).to.have.a.property('min');
-                expect(result[p]).to.have.a.property('max');
+                expect(result[p]).to.have.a.property('minimum');
+                expect(result[p]).to.have.a.property('maximum');
                 expect(result[p]).to.have.a.property('quantity');
                 expect(result[p]).to.have.a.property('total');
             })
