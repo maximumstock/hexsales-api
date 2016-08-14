@@ -2,9 +2,14 @@
 
 ## Changelog
 
-#### 2016-07-20
+#### 2016-08-14
 
-- Added `/stats/pricelist` resource - list of summary data (avg/min/max price, sold quantity) over different timespans for all articles at once
+- Unified return data formats for Summaries and Histories:
+- Properties of summaries are non-shortened throughout the api (eg. `average` instead of `avg`, `minimum` instead of `min`, etc.)
+- Properties of everything else (histories, pricelists) are always shortened to save bandwith (eg. `a` instead of `average`, `mi` instead of `minimum`)
+- To properly identify articles, their UUIDs are needed, since now names are used for more than just one type of
+article (eg. 'The Kraken' as champion and card). Since UUIDs are included in the AH files starting from 2016-07-08,
+all previous data has been dropped.
 
 #### 2016-08-06
 
@@ -13,12 +18,9 @@
 - Added `/histories` endpoint
 - Added `/summaries` endpoint
 
-#### 2016-08-14
+#### 2016-07-20
 
-- Unified return data formats for Summaries and Histories:
-    - Properties of summaries are non-shortened throughout the api (eg. `average` instead of `avg`, `minimum` instead of `min`, etc.)
-    - Properties of everything else (histories, pricelists) are always shortened to save bandwith (eg. `a` instead of `average`, `mi` instead of `minimum`)
-
+- Added `/stats/pricelist` resource - list of summary data (avg/min/max price, sold quantity) over different timespans for all articles at once
 
 ## API Overview
 Here is a short overview over this API and it's functionality.
