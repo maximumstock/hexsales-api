@@ -11,9 +11,14 @@
   <body>
     <article class="markdown-body"><h1 id="v1-documentation"><a class="header-link" href="#v1-documentation"></a>v1 documentation</h1>
 <h2 id="changelog"><a class="header-link" href="#changelog"></a>Changelog</h2>
-<h4 id="2016-07-20"><a class="header-link" href="#2016-07-20"></a>2016-07-20</h4>
+<h4 id="2016-08-14"><a class="header-link" href="#2016-08-14"></a>2016-08-14</h4>
 <ul class="list">
-<li>Added <code>/stats/pricelist</code> resource - list of summary data (avg/min/max price, sold quantity) over different timespans for all articles at once</li>
+<li>Unified return data formats for Summaries and Histories:</li>
+<li>Properties of summaries are non-shortened throughout the api (eg. <code>average</code> instead of <code>avg</code>, <code>minimum</code> instead of <code>min</code>, etc.)</li>
+<li>Properties of everything else (histories, pricelists) are always shortened to save bandwith (eg. <code>a</code> instead of <code>average</code>, <code>mi</code> instead of <code>minimum</code>)</li>
+<li>To properly identify articles, their UUIDs are needed, since now names are used for more than just one type of
+article (eg. &#39;The Kraken&#39; as champion and card). Since UUIDs are included in the AH files starting from 2016-07-08,
+all previous data has been dropped.</li>
 </ul>
 <h4 id="2016-08-06"><a class="header-link" href="#2016-08-06"></a>2016-08-06</h4>
 <ul class="list">
@@ -22,13 +27,9 @@
 <li>Added <code>/histories</code> endpoint</li>
 <li>Added <code>/summaries</code> endpoint</li>
 </ul>
-<h4 id="2016-08-14"><a class="header-link" href="#2016-08-14"></a>2016-08-14</h4>
+<h4 id="2016-07-20"><a class="header-link" href="#2016-07-20"></a>2016-07-20</h4>
 <ul class="list">
-<li>Unified return data formats for Summaries and Histories:<ul class="list">
-<li>Properties of summaries are non-shortened throughout the api (eg. <code>average</code> instead of <code>avg</code>, <code>minimum</code> instead of <code>min</code>, etc.)</li>
-<li>Properties of everything else (histories, pricelists) are always shortened to save bandwith (eg. <code>a</code> instead of <code>average</code>, <code>mi</code> instead of <code>minimum</code>)</li>
-</ul>
-</li>
+<li>Added <code>/stats/pricelist</code> resource - list of summary data (avg/min/max price, sold quantity) over different timespans for all articles at once</li>
 </ul>
 <h2 id="api-overview"><a class="header-link" href="#api-overview"></a>API Overview</h2>
 <p>Here is a short overview over this API and it&#39;s functionality.</p>
@@ -86,40 +87,36 @@ This also lets you query for summarizing data, but aggregates the data by day. S
 <p>Example 1: <a href="/v1/articles/Wrathwood Colossus/summaries"><code>/v1/articles/Wrathwood Colossus/summaries</code></a>: Last months data</p>
 <pre class="hljs"><code>{
   <span class="hljs-attr">"platinum"</span>: {
-    <span class="hljs-attr">"currency"</span>: <span class="hljs-string">"Platinum"</span>,
-    <span class="hljs-attr">"avg"</span>: <span class="hljs-number">81</span>,
+    <span class="hljs-attr">"average"</span>: <span class="hljs-number">81</span>,
     <span class="hljs-attr">"median"</span>: <span class="hljs-number">50</span>,
-    <span class="hljs-attr">"min"</span>: <span class="hljs-number">30</span>,
-    <span class="hljs-attr">"max"</span>: <span class="hljs-number">215</span>,
+    <span class="hljs-attr">"minimum"</span>: <span class="hljs-number">30</span>,
+    <span class="hljs-attr">"maximum"</span>: <span class="hljs-number">215</span>,
     <span class="hljs-attr">"total"</span>: <span class="hljs-number">1697</span>,
     <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">21</span>
   },
   <span class="hljs-attr">"gold"</span>: {
-    <span class="hljs-attr">"currency"</span>: <span class="hljs-string">"Gold"</span>,
-    <span class="hljs-attr">"avg"</span>: <span class="hljs-number">7690</span>,
+    <span class="hljs-attr">"average"</span>: <span class="hljs-number">7690</span>,
     <span class="hljs-attr">"median"</span>: <span class="hljs-number">7500</span>,
-    <span class="hljs-attr">"min"</span>: <span class="hljs-number">2</span>,
-    <span class="hljs-attr">"max"</span>: <span class="hljs-number">14900</span>,
+    <span class="hljs-attr">"minimum"</span>: <span class="hljs-number">2</span>,
+    <span class="hljs-attr">"maximum"</span>: <span class="hljs-number">14900</span>,
     <span class="hljs-attr">"total"</span>: <span class="hljs-number">76904</span>,
     <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">10</span>
   }
 }</code></pre><p>Example 2: <a href="/v1/articles/Wrathwood Colossus/summaries?start=2014-12-23&amp;end=2016-04-23"><code>/v1/articles/Wrathwood Colossus/summaries?start=2014-12-23&amp;end=2016-04-23</code></a>:</p>
 <pre class="hljs"><code>{
   <span class="hljs-attr">"platinum"</span>: {
-    <span class="hljs-attr">"currency"</span>: <span class="hljs-string">"Platinum"</span>,
-    <span class="hljs-attr">"avg"</span>: <span class="hljs-number">63</span>,
+    <span class="hljs-attr">"average"</span>: <span class="hljs-number">63</span>,
     <span class="hljs-attr">"median"</span>: <span class="hljs-number">54</span>,
-    <span class="hljs-attr">"min"</span>: <span class="hljs-number">30</span>,
-    <span class="hljs-attr">"max"</span>: <span class="hljs-number">320</span>,
+    <span class="hljs-attr">"minimum"</span>: <span class="hljs-number">30</span>,
+    <span class="hljs-attr">"maximum"</span>: <span class="hljs-number">320</span>,
     <span class="hljs-attr">"total"</span>: <span class="hljs-number">67196</span>,
     <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">1071</span>
   },
   <span class="hljs-attr">"gold"</span>: {
-    <span class="hljs-attr">"currency"</span>: <span class="hljs-string">"Gold"</span>,
-    <span class="hljs-attr">"avg"</span>: <span class="hljs-number">7975</span>,
+    <span class="hljs-attr">"average"</span>: <span class="hljs-number">7975</span>,
     <span class="hljs-attr">"median"</span>: <span class="hljs-number">7375</span>,
-    <span class="hljs-attr">"min"</span>: <span class="hljs-number">2</span>,
-    <span class="hljs-attr">"max"</span>: <span class="hljs-number">111111</span>,
+    <span class="hljs-attr">"minimum"</span>: <span class="hljs-number">2</span>,
+    <span class="hljs-attr">"maximum"</span>: <span class="hljs-number">111111</span>,
     <span class="hljs-attr">"total"</span>: <span class="hljs-number">2591730</span>,
     <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">325</span>
   }
@@ -136,7 +133,6 @@ This also lets you query for summarizing data, but aggregates the data by day. S
   <span class="hljs-string">"platinum"</span>: <span class="hljs-meta">[</span>
     {
       <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-01-24"</span>,                 <span class="hljs-comment">// date</span>
-      <span class="hljs-string">"c"</span>: <span class="hljs-string">"Platinum"</span>,                 <span class="hljs-comment">// currency</span>
       <span class="hljs-string">"a"</span>: <span class="hljs-number">48</span>,                         <span class="hljs-comment">// average price for that day</span>
       <span class="hljs-string">"m"</span>: <span class="hljs-number">49</span>,                         <span class="hljs-comment">// median price for that day</span>
       <span class="hljs-string">"mi"</span>: <span class="hljs-number">40</span>,                        <span class="hljs-comment">// minimum price for that day</span>
@@ -146,7 +142,6 @@ This also lets you query for summarizing data, but aggregates the data by day. S
     },
     {
       <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-01-25T00:00:00.000Z"</span>,
-      <span class="hljs-string">"c"</span>: <span class="hljs-string">"Platinum"</span>,
       <span class="hljs-string">"a"</span>: <span class="hljs-number">50</span>,
       <span class="hljs-string">"m"</span>: <span class="hljs-number">50</span>,
       <span class="hljs-string">"mi"</span>: <span class="hljs-number">49</span>,
@@ -275,15 +270,15 @@ However, due to how I aggregate my data, this endpoint does not return any media
     <span class="hljs-attr">"total"</span>: <span class="hljs-number">127597</span>,
     <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">133</span>,
     <span class="hljs-attr">"average"</span>: <span class="hljs-number">959</span>,
-    <span class="hljs-attr">"min"</span>: <span class="hljs-number">50</span>,
-    <span class="hljs-attr">"max"</span>: <span class="hljs-number">4500</span>
+    <span class="hljs-attr">"minimum"</span>: <span class="hljs-number">50</span>,
+    <span class="hljs-attr">"maximum"</span>: <span class="hljs-number">4500</span>
   },
   <span class="hljs-attr">"gold"</span>: {
     <span class="hljs-attr">"total"</span>: <span class="hljs-number">108833</span>,
     <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">4</span>,
     <span class="hljs-attr">"average"</span>: <span class="hljs-number">27208</span>,
-    <span class="hljs-attr">"min"</span>: <span class="hljs-number">9500</span>,
-    <span class="hljs-attr">"max"</span>: <span class="hljs-number">40000</span>
+    <span class="hljs-attr">"minimum"</span>: <span class="hljs-number">9500</span>,
+    <span class="hljs-attr">"maximum"</span>: <span class="hljs-number">40000</span>
   }
 }</code></pre><hr>
 <h2 id="stats"><a class="header-link" href="#stats"></a>Stats</h2>
@@ -334,31 +329,41 @@ However, due to how I aggregate my data, this endpoint does not return any media
       <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Set 004 Booster Pack"</span>,
       <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">2190</span>,
       <span class="hljs-attr">"total"</span>: <span class="hljs-number">399256</span>,
-      <span class="hljs-attr">"avg"</span>: <span class="hljs-number">182</span>
+      <span class="hljs-attr">"average"</span>: <span class="hljs-number">182</span>,
+      <span class="hljs-attr">"set"</span>: <span class="hljs-string">"..."</span>,
+      <span class="hljs-attr">"rarity"</span>: <span class="hljs-string">"..."</span>
     },
     {
       <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Set 003 Booster Pack"</span>,
       <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">901</span>,
       <span class="hljs-attr">"total"</span>: <span class="hljs-number">164306</span>,
-      <span class="hljs-attr">"avg"</span>: <span class="hljs-number">182</span>
+      <span class="hljs-attr">"average"</span>: <span class="hljs-number">182</span>,
+      <span class="hljs-attr">"set"</span>: <span class="hljs-string">"..."</span>,
+      <span class="hljs-attr">"rarity"</span>: <span class="hljs-string">"..."</span>
     },
     {
       <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Rare Stardust"</span>,
       <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">764</span>,
       <span class="hljs-attr">"total"</span>: <span class="hljs-number">4995</span>,
-      <span class="hljs-attr">"avg"</span>: <span class="hljs-number">6</span>
+      <span class="hljs-attr">"average"</span>: <span class="hljs-number">6</span>,
+      <span class="hljs-attr">"set"</span>: <span class="hljs-string">"..."</span>,
+      <span class="hljs-attr">"rarity"</span>: <span class="hljs-string">"..."</span>
     },
     {
       <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Common Stardust"</span>,
       <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">742</span>,
       <span class="hljs-attr">"total"</span>: <span class="hljs-number">1870</span>,
-      <span class="hljs-attr">"avg"</span>: <span class="hljs-number">2</span>
+      <span class="hljs-attr">"average"</span>: <span class="hljs-number">2</span>,
+      <span class="hljs-attr">"set"</span>: <span class="hljs-string">"..."</span>,
+      <span class="hljs-attr">"rarity"</span>: <span class="hljs-string">"..."</span>
     },
     {
       <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Uncommon Stardust"</span>,
       <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">650</span>,
       <span class="hljs-attr">"total"</span>: <span class="hljs-number">1573</span>,
-      <span class="hljs-attr">"avg"</span>: <span class="hljs-number">2</span>
+      <span class="hljs-attr">"average"</span>: <span class="hljs-number">2</span>,
+      <span class="hljs-attr">"set"</span>: <span class="hljs-string">"..."</span>,
+      <span class="hljs-attr">"rarity"</span>: <span class="hljs-string">"..."</span>
     }
   ],
   <span class="hljs-attr">"gold"</span>: [...]

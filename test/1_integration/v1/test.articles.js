@@ -72,7 +72,7 @@ describe('articles', function() {
 
         it('should return summary-like stuff', function*() {
 
-            const res = yield request.get('/v1/articles/Vampire King/summaries').expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
+            const res = yield request.get('/v1/articles/Abominate/summaries').expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
             const result = res.body;
 
             expect(result).to.be.an('object');
