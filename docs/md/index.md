@@ -10,7 +10,7 @@ By sending HTTP-Requests to defined URLs that can be found in the documentation 
 * [v1](v1/index.html)
 
 # Feedback
-If you have any feedback, you can disuss it [here](http://board.hex.gameforge.com/index.php?thread/46438-hexsales-api/) or contact me via [email](mailto:me@maximumstock.net).
+If you have any feedback, you can disuss it [here](http://board.hex.gameforge.com/index.php?thread/49792-hexsales-net-api/#post580385) or contact me via [email](mailto:me@maximumstock.net).
 
 # Source Code
 For those of you who are interested, the code for this API is publicly available [here](https://www.github.com/maximumstock/hexsales-api.git).

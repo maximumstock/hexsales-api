@@ -42,22 +42,50 @@ describe('articles', function() {
         });
 
     });
+    
+    // describe('GET /articles/:name', function() {
 
-    describe('GET /articles/:name', function() {
+    //     it('should find an article that has the given name', function*() {
 
-        it('should find an article that has the given name', function*() {
+    //         const res = yield request.get('/v1/articles/Vampire King').expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
+    //         const result = res.body;
 
-            const res = yield request.get('/v1/articles/Vampire King').expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
+    //         expect(result).to.be.an('object');
+    //         expect(result.name).to.equal('Vampire King');
+
+    //     });
+
+    //     it('should throw a 404 error if there is no article with the given name', function*() {
+
+    //         const res = yield request.get('/v1/articles/Vampire Kinger').expect(404).expect('Content-Type', 'application/json; charset=utf-8').end();
+    //         const result = res.body;
+
+    //         expect(result).to.be.an('object');
+    //         expect(result).to.have.a.property('status');
+    //         expect(result.status).to.equal(404);
+
+    //     });
+
+    // });
+
+    describe('GET /articles/:uuid', function() {
+
+        it('should find an article that has the given uuid', function*() {
+
+            const vampireKingUUID = '46c02066-29af-4b7d-bbcb-41ba76e8120f';
+            
+            const res = yield request.get(`/v1/articles/${vampireKingUUID}`).expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
             const result = res.body;
 
             expect(result).to.be.an('object');
             expect(result.name).to.equal('Vampire King');
+            expect(result.uuid).to.equal(vampireKingUUID);
 
         });
 
         it('should throw a 404 error if there is no article with the given name', function*() {
 
-            const res = yield request.get('/v1/articles/Vampire Kinger').expect(404).expect('Content-Type', 'application/json; charset=utf-8').end();
+            const res = yield request.get('/v1/articles/invaliduuid').expect(404).expect('Content-Type', 'application/json; charset=utf-8').end();
             const result = res.body;
 
             expect(result).to.be.an('object');
@@ -68,15 +96,91 @@ describe('articles', function() {
 
     });
 
-    describe('GET /articles/:name/summaries', function() {
+    // describe('GET /articles/:name/summaries', function() {
+
+    //     it('should return summary-like stuff', function*() {
+
+    //         const res = yield request.get('/v1/articles/Abominate/summaries').expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
+    //         const result = res.body;
+
+    //         expect(result).to.be.an('object');
+
+    //         const props = Object.keys(result);
+    //         expect(props.length).to.not.equal(0);
+    //         props.forEach(function(p) {
+    //             expect(result[p]).to.have.a.property('average');
+    //             expect(result[p]).to.have.a.property('median');
+    //             expect(result[p]).to.have.a.property('minimum');
+    //             expect(result[p]).to.have.a.property('maximum');
+    //             expect(result[p]).to.have.a.property('quantity');
+    //             expect(result[p]).to.have.a.property('total');
+    //         })
+
+    //     });
+
+    //     it('should yield an error if `start` or `end` are invalid date strings', function*() {
+
+    //         const res = yield request.get('/v1/articles/Vampire King/summaries?start=abc').expect(400).expect('Content-Type', 'application/json; charset=utf-8').end();
+    //         const result = res.body;
+
+    //         expect(result).to.be.an('object');
+    //         expect(result).to.have.a.property('status');
+    //         expect(result.status).to.equal(400);
+
+    //     });
+
+    // });
+
+    // describe('GET /articles/:name/histories', function() {
+
+    //     it('should return history-like stuff', function*() {
+
+    //         const res = yield request.get('/v1/articles/Vampire King/histories').expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
+    //         const result = res.body;
+
+    //         expect(result).to.be.an('object');
+
+    //         const props = Object.keys(result);
+    //         expect(props.length).to.not.equal(0);
+    //         props.forEach(function(p) {
+    //             expect(result[p]).to.be.an('array');
+    //             result[p].forEach(function(e) {
+    //                 expect(e).to.have.a.property('d');
+    //                 expect(e).to.have.a.property('a');
+    //                 expect(e).to.have.a.property('m');
+    //                 expect(e).to.have.a.property('mi');
+    //                 expect(e).to.have.a.property('ma');
+    //                 expect(e).to.have.a.property('q');
+    //                 expect(e).to.have.a.property('t');
+    //             });
+    //         })
+
+    //     });
+
+    //     it('should yield an error if `start` or `end` are invalid date strings', function*() {
+
+    //         const res = yield request.get('/v1/articles/Vampire King/histories?start=abc').expect(400).expect('Content-Type', 'application/json; charset=utf-8').end();
+    //         const result = res.body;
+
+    //         expect(result).to.be.an('object');
+    //         expect(result).to.have.a.property('status');
+    //         expect(result.status).to.equal(400);
+
+    //     });
+
+    // });
+    
+    describe('GET /articles/:uuid/summaries', function() {
 
         it('should return summary-like stuff', function*() {
 
-            const res = yield request.get('/v1/articles/Abominate/summaries').expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
+            const abominateUUID = '8eebaeb5-5ff9-48c2-ae2f-2edf2f7cad59';
+
+            const res = yield request.get(`/v1/articles/${abominateUUID}/summaries`).expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
             const result = res.body;
 
             expect(result).to.be.an('object');
-
+            console.log(result);
             const props = Object.keys(result);
             expect(props.length).to.not.equal(0);
             props.forEach(function(p) {
@@ -92,7 +196,9 @@ describe('articles', function() {
 
         it('should yield an error if `start` or `end` are invalid date strings', function*() {
 
-            const res = yield request.get('/v1/articles/Vampire King/summaries?start=abc').expect(400).expect('Content-Type', 'application/json; charset=utf-8').end();
+            const abominateUUID = '8eebaeb5-5ff9-48c2-ae2f-2edf2f7cad59';
+
+            const res = yield request.get(`/v1/articles/${abominateUUID}/summaries?start=abc`).expect(400).expect('Content-Type', 'application/json; charset=utf-8').end();
             const result = res.body;
 
             expect(result).to.be.an('object');
@@ -103,11 +209,13 @@ describe('articles', function() {
 
     });
 
-    describe('GET /articles/:name/histories', function() {
+    describe('GET /articles/:uuid/histories', function() {
 
         it('should return history-like stuff', function*() {
 
-            const res = yield request.get('/v1/articles/Vampire King/histories').expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
+            const vampireKingUUID = '46c02066-29af-4b7d-bbcb-41ba76e8120f';
+
+            const res = yield request.get(`/v1/articles/${vampireKingUUID}/histories`).expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
             const result = res.body;
 
             expect(result).to.be.an('object');
@@ -131,7 +239,9 @@ describe('articles', function() {
 
         it('should yield an error if `start` or `end` are invalid date strings', function*() {
 
-            const res = yield request.get('/v1/articles/Vampire King/histories?start=abc').expect(400).expect('Content-Type', 'application/json; charset=utf-8').end();
+            const vampireKingUUID = '46c02066-29af-4b7d-bbcb-41ba76e8120f';
+
+            const res = yield request.get(`/v1/articles/${vampireKingUUID}/histories?start=abc`).expect(400).expect('Content-Type', 'application/json; charset=utf-8').end();
             const result = res.body;
 
             expect(result).to.be.an('object');

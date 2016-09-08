@@ -12,7 +12,6 @@ const knexConfig = {
 };
 
 module.exports = {
-
     development: knexConfig,
     staging: knexConfig,
     production: knexConfig

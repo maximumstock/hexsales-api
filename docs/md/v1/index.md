@@ -2,6 +2,11 @@
 
 ## Changelog
 
+#### 2016-09-08
+
+* All article specific endpoints now use the UUID property for referencing articles instead of their name property. For example, sending a GET request to `/v1/articles/Vampire King` is now invalid and should use the UUID like so: `/v1/articles/46c02066-29af-4b7d-bbcb-41ba76e8120f`. This breaks a lot of old code, but needed to be changed because of naming policies of HEX.
+* `/stats/pricelist` now uses uuids as article keys for it's hashmap-like JSON object
+
 #### 2016-08-14
 
 - Unified return data formats for Summaries and Histories:
@@ -38,9 +43,9 @@ This also lets you query for summarizing data, but aggregates the data by day. S
 * `/articles…`
 	* POST `/articles/search` - Let's you search for (known**) articles there are official AH sales for
 	* GET `/articles` - Gives you a list of all (known**) articles there are official AH sales for
-	* GET `/articles/:name` - Gives you details for a specific article (currently it's name, game uuid, rarity, type (cards, equipment, packs, …) and set it belongs to)
-	* GET `/articles/:name/histories` - This is similiar to `/histories`, but additionally gives you median values instead of just average price values
-	* GET `/articles/:name/summaries` - This is also similiar to `/summaries`; Also includes median price values instead of just average price values like `/summaries` does
+	* GET `/articles/:uuid` - Gives you details for a specific article (currently it's name, game uuid, rarity, type (cards, equipment, packs, …) and set it belongs to)
+	* GET `/articles/:uuid/histories` - This is similiar to `/histories`, but additionally gives you median values instead of just average price values
+	* GET `/articles/:uuid/summaries` - This is also similiar to `/summaries`; Also includes median price values instead of just average price values like `/summaries` does
 
 * GET `/sets` - Gives you a list of all (known**) sets of sold articles
 
@@ -62,32 +67,33 @@ Optional Parameters:
 
 --------------------------------------------------------------------------------
 
-GET `/v1/articles/:name`
+GET `/v1/articles/:uuid`
 
-Returns all data for the article with name `:name`. If there is none, a `404` response is returned.
+Returns all data for the article with uuid `:uuid`. If there is none, a `404` response is returned.
 
-Example: [`/v1/articles/Vampire King`](/v1/articles/Vampire King)
+Example for `Wrathwood Colossus AA`: [`/v1/articles/054ddfcc-61f1-49d1-8287-37fb35a0c03d`](/v1/articles/054ddfcc-61f1-49d1-8287-37fb35a0c03d)
 
 ```
 {
   "name": "Wrathwood Colossus AA",   // extended name (if you request the AA version of a card, it's name is extended by " AA"; theoretically, once extended art versions are distinguished in HexEnt's data dumps, an extended and alternate art version of Wrathwood Colossus would be called "Wrathwood Colossus EAA")
   "type": "Card",   // type of the article, eg. "Card", "Pack" or "Other",
   "rarity": "Epic", // rarity of the article; might be null
+  ...
 }
 ```
 
 --------------------------------------------------------------------------------
 
-GET `/v1/articles/:name/summaries`
+GET `/v1/articles/:uuid/summaries`
 
-Returns a JSON object containing summarizing sales for the specified article `:name` for a specified timespan for each currency. If there is no article `:name`, a `404` response is returned.
+Returns a JSON object containing summarizing sales for the specified article `:uuid` for a specified timespan for each currency. If there is no article `:uuid`, a `404` response is returned. Note that all properties (`average`, `median`, etc are written out, as opposed to the short form in history data).
 
 Optional Parameters:
 
 - `start` - String - A valid date representation, such as "2016-01-01" (default: the date for the time of the request in CET timezone - 31 days)
 - `end` - String - same as above (default: the date of the time of the request in CET timezone)
 
-Example 1: [`/v1/articles/Wrathwood Colossus/summaries`](/v1/articles/Wrathwood Colossus/summaries): Last months data
+Example 1 for `Wrathwood Colossus`: [`/v1/articles/b767da50-d694-4aeb-9197-e04be089befd/summaries`](/v1/articles/b767da50-d694-4aeb-9197-e04be089befd/summaries): Last months data
 
 ```
 {
@@ -110,7 +116,7 @@ Example 1: [`/v1/articles/Wrathwood Colossus/summaries`](/v1/articles/Wrathwood 
 }
 ```
 
-Example 2: [`/v1/articles/Wrathwood Colossus/summaries?start=2014-12-23&end=2016-04-23`](/v1/articles/Wrathwood Colossus/summaries?start=2014-12-23&end=2016-04-23):
+Example 2 for `Wrathwood Colossus`: [`/v1/articles/b767da50-d694-4aeb-9197-e04be089befd/summaries?start=2014-12-23&end=2016-04-23`](/v1/articles/b767da50-d694-4aeb-9197-e04be089befd/summaries?start=2014-12-23&end=2016-04-23):
 
 ```
 {
@@ -135,16 +141,16 @@ Example 2: [`/v1/articles/Wrathwood Colossus/summaries?start=2014-12-23&end=2016
 
 --------------------------------------------------------------------------------
 
-GET `/v1/articles/:name/histories`
+GET `/v1/articles/:uuid/histories`
 
-Returns a JSON object with daily summary data for each currency for the article `:name`. If the article `:name` does not exist, a `404` response is returned.
+Returns a JSON object with daily summary data for each currency for the article `:uuid`. If the article `:name` does not exist, a `404` response is returned. Note that all properties (`average`, `median`, etc are abbreviated, as opposed to the long form in summary data)
 
 Optional Parameters:
 
 - `start` - String - A valid date representation, such as "2016-01-01" (default: the date for the time of the request in CET timezone - 3 months)
 - `end` - String - same as above (default: the date of the time of the request in CET timezone)
 
-Example: [`/v1/articles/Wrathwood Colossus/histories`](/v1/articles/Wrathwood Colossus/histories) (excerpt)
+Example for `Wrathwood Colossus`: [`/v1/articles/b767da50-d694-4aeb-9197-e04be089befd/histories`](/v1/articles/b767da50-d694-4aeb-9197-e04be089befd/histories) (excerpt)
 
 ```
 {
@@ -187,24 +193,52 @@ Optional Parameters:
 - `set` - String - The set of the searched articles. Check `/v1/sets` for a list of all values.
 - `limit` - Integer - Limits the quantity of returned results (default: 25).
 - `offset` - Integer - Skips `offset` articles before returning (default: 0).
-- `contains` - Boolean - If true, all articles with a name containing `name` will be searched (case insensitive), instead of exact matches (case sensitive)
+- `contains` - Boolean - If true, all articles with a name containing `name` will be searched (case insensitive), instead of exact matches (case sensitive); defaults to `true`
 
 Example: POST `/v1/articles/search` with request body "{rarity: 'Epic'}"
 
-```
-[
-  {
-    "name": "Adamanthian Scrivener AA",
-    "type": "Card",
-    "rarity": "Epic"
-  },
-  {
-    "name": "Arborean Rootfather AA",
-    "type": "Card",
-    "rarity": "Epic"
-  }, ...
-]
-```
+	[
+		{
+			"uuid": "d2222e6c-c8f8-4dad-b6d1-c0aacd3fc8f0",
+			"name": "Adamanthian Scrivener AA",
+			"aa": true,
+			"set": "Shards of Fate",
+			"rarity": "Epic",
+			"type": "Card"
+		},
+		{
+			"uuid": "9ef979ba-93c4-49dc-94a7-68be93806df4",
+			"name": "Arborean Rootfather AA",
+			"aa": true,
+			"set": "Shattered Destiny",
+			"rarity": "Epic",
+			"type": "Card"
+		},
+		{
+			"uuid": "d13064bf-bd0d-424c-8cdf-e5fa84db9855",
+			"name": "Arcane Focus AA",
+			"aa": true,
+			"set": "Armies of Myth",
+			"rarity": "Epic",
+			"type": "Card"
+		},
+		{
+			"uuid": "c46f187c-642a-4c68-a252-ee28a4d9e568",
+			"name": "Ashwood Soloist AA",
+			"aa": true,
+			"set": "Armies of Myth",
+			"rarity": "Epic",
+			"type": "Card"
+		},
+		{
+			"uuid": "bd6dd26c-4210-4935-b534-3c529223189e",
+			"name": "Azurefate Sorceress AA",
+			"aa": true,
+			"set": "Shattered Destiny",
+			"rarity": "Epic",
+			"type": "Card"
+		}, ...
+	]
 
 --------------------------------------------------------------------------------
 
@@ -219,6 +253,7 @@ Example:
 ```
 [
   "Armies of Myth",
+  "Herofall",
   "Primal Dawn",
   "PvE 01 Universal Card Set",
   "PvE02 Universal Card Set",
@@ -239,7 +274,7 @@ Example:
 GET `/v1/histories`
 
 Unlike `/articles/:name/histories`, this endpoint lets you find historical data for more than one article.
-However, due to how I aggregate my data, this endpoint does not return any median price values.
+However, due to how I aggregate my data, this endpoint does not return any median price values. Note that all properties (`average`, `median`, etc are abbreviated, as opposed to the long form in summary data)
 
 Optional Parameters:
 
@@ -257,40 +292,58 @@ Example: GET [`/v1/histories?start=2016-08-03&end=2016-08-06&rarity=Legendary&ty
 This returns a history of all sales for legendary cards of Shards of Fate per currency between 2016-08-03 and 2016-08-06.
 
 	{
-	  "platinum": [
-	    {
-	      "d": "2016-08-02",
-	      "t": 56461, // total platinum spent that day on legendary cards from Shards of Fate that day
-	      "q": 53 // total quantity of legendary cards from Shards of Fate sold that day
-	    },
-	    {
-	      "d": "2016-08-03",
-	      "t": 20929,
-	      "q": 20
-	    },
-	    {
-	      "d": "2016-08-04",
-	      "t": 16457,
-	      "q": 24
-	    },
-	    {
-	      "d": "2016-08-05",
-	      "t": 33750,
-	      "q": 36
-	    }
-	  ],
-	  "gold": [
-	    {
-	      "d": "2016-08-02",
-	      "t": 49500,
-	      "q": 2
-	    },
-	    {
-	      "d": "2016-08-03",
-	      "t": 59333,
-	      "q": 2
-	    }
-	  ]
+		"platinum": [
+			{
+				"d": "2016-08-03",
+				"t": 55041,
+				"q": 57,
+				"a": 965,
+				"mi": 51,
+				"ma": 4500
+			},
+			{
+				"d": "2016-08-04",
+				"t": 22120,
+				"q": 26,
+				"a": 850,
+				"mi": 51,
+				"ma": 4000
+			},
+			{
+				"d": "2016-08-05",
+				"t": 17100,
+				"q": 26,
+				"a": 657,
+				"mi": 60,
+				"ma": 4200
+			},
+			{
+				"d": "2016-08-06",
+				"t": 35097,
+				"q": 39,
+				"a": 899,
+				"mi": 50,
+				"ma": 4440
+			}
+		],
+		"gold": [
+			{
+				"d": "2016-08-03",
+				"t": 49500,
+				"q": 2,
+				"a": 24750,
+				"mi": 9500,
+				"ma": 40000
+			},
+			{
+				"d": "2016-08-04",
+				"t": 59333,
+				"q": 2,
+				"a": 29666,
+				"mi": 26000,
+				"ma": 33333
+			}
+		]
 	}
 
 --------------------------------------------------------------------------------
@@ -299,8 +352,8 @@ This returns a history of all sales for legendary cards of Shards of Fate per cu
 
 GET `/v1/summaries`
 
-Unlike `/articles/:name/summaries`, this endpoint lets you find summarizing data for more than one article.
-However, due to how I aggregate my data, this endpoint does not return any median price values.
+Unlike `/articles/:uuid/summaries`, this endpoint lets you find summarizing data for more than one article.
+However, due to how I aggregate my data, this endpoint does not return any median price values. Note that all properties (`average`, `median`, etc are written out, as opposed to the short form in history data)
 
 Optional Parameters:
 
@@ -318,20 +371,20 @@ Example: GET [`/v1/summaries?start=2016-08-03&end=2016-08-06&rarity=Legendary&ty
 This summarizes all sales for legendary cards of Shards of Fate per currency between 2016-08-03 and 2016-08-06.
 
 	{
-	  "platinum": {
-	    "total": 127597,
-	    "quantity": 133,
-	    "average": 959,
-	    "minimum": 50,
-	    "maximum": 4500
-	  },
-	  "gold": {
-	    "total": 108833,
-	    "quantity": 4,
-	    "average": 27208,
-	    "minimum": 9500,
-	    "maximum": 40000
-	  }
+		"platinum": {
+			"total": 129358,
+			"quantity": 148,
+			"average": 874,
+			"minimum": 50,
+			"maximum": 4500
+		},
+		"gold": {
+			"total": 108833,
+			"quantity": 4,
+			"average": 27208,
+			"minimum": 9500,
+			"maximum": 40000
+		}
 	}
 
 --------------------------------------------------------------------------------
@@ -342,7 +395,7 @@ Under `/stats` I'll collect some different endpoints that don't fit the rest.
 
 GET `/v1/stats/pricelist`
 
-Returns a collection of summary data for each article for each currency. Basically it is like `/v1/articles/:name/summaries` but for all articles and for different timespans at once. Ideally you want to use this to calculate prices of decks/collections of articles.
+Returns a collection of summary data for each article for each currency. Basically it is like `/v1/articles/:uuid/summaries` but for all articles and for different timespans at once. Ideally you want to use this to calculate prices of decks/collections of articles.
 
 Example: [`/v1/stats/pricelist`](/v1/stats/pricelist) (excerpt)
 
@@ -350,7 +403,7 @@ Example: [`/v1/stats/pricelist`](/v1/stats/pricelist) (excerpt)
 {
   "gold": {...},
   "platinum": {
-    "Vampire King": {
+    "46c02066-29af-4b7d-bbcb-41ba76e8120f": { // UUID for Vampire King
       "3": {          // data for last 3 days
         "q": 17,      // quantity sold
         "t": 69194,   // total currency spent
@@ -389,50 +442,55 @@ Optional Parameters:
 - `end` - String - The end of the timespan to aggregate on (default: today)
 - `limit` - Integer - The number of articles with most sales to return (default: 30)
 
-Example: [`/v1/stats/mostsold?limit=5&start=2016-05-05&end=2016-05-10`](/v1/stats/mostsold?limit=5&start=2016-05-05&end=2016-05-10) gives you the **five** most sold articles per currency of between 2016-05-05 and 2016-05-10:
+Example: [`/v1/stats/mostsold?limit=5&start=2016-08-15&end=2016-08-20`](/v1/stats/mostsold?limit=5&start=2016-08-15&end=2016-08-20) gives you the **five** most sold articles per currency of between 2016-08-15 and 2016-08-20:
 
 	{
-	  "platinum": [
-	    {
-	      "name": "Set 004 Booster Pack",
-	      "quantity": 2190,
-	      "total": 399256,
-	      "average": 182,
-	      "set": "...",
-	      "rarity": "..."
-	    },
-	    {
-	      "name": "Set 003 Booster Pack",
-	      "quantity": 901,
-	      "total": 164306,
-	      "average": 182,
-	      "set": "...",
-	      "rarity": "..."
-	    },
-	    {
-	      "name": "Rare Stardust",
-	      "quantity": 764,
-	      "total": 4995,
-	      "average": 6,
-	      "set": "...",
-	      "rarity": "..."
-	    },
-	    {
-	      "name": "Common Stardust",
-	      "quantity": 742,
-	      "total": 1870,
-	      "average": 2,
-	      "set": "...",
-	      "rarity": "..."
-	    },
-	    {
-	      "name": "Uncommon Stardust",
-	      "quantity": 650,
-	      "total": 1573,
-	      "average": 2,
-	      "set": "...",
-	      "rarity": "..."
-	    }
-	  ],
-	  "gold": [...]
+		"platinum": [
+			{
+				"uuid": "a8e324e3-b9fb-4bb6-b659-f2773982aed2",
+				"name": "Set 004 Booster Pack",
+				"rarity": "", // Packs currently don't have a rarity
+				"set": "Primal Dawn",
+				"quantity": 638,
+				"total": 118608,
+				"average": 185
+			},
+			{
+				"uuid": "ab4a63a8-c378-4693-8b5a-97e423d3d47b",
+				"name": "Common Stardust",
+				"rarity": "",
+				"set": "UNSET",
+				"quantity": 404,
+				"total": 488,
+				"average": 1
+			},
+			{
+				"uuid": "a2a6129b-978a-40ce-9673-73588e6a40c3",
+				"name": "Rare Stardust",
+				"rarity": "", // Other items like Stardust also do not have a rarity value
+				"set": "UNSET",
+				"quantity": 338,
+				"total": 1574,
+				"average": 4
+			},
+			{
+				"uuid": "8c665363-c8e3-4a6f-9ace-1b66f8669817",
+				"name": "Convocation 2016",
+				"rarity": "",
+				"set": "None Defined",
+				"quantity": 324,
+				"total": 30927,
+				"average": 95
+			},
+			{
+				"uuid": "a8b78207-686a-4994-b6cd-4548d1349841",
+				"name": "Set 001 Booster Pack",
+				"rarity": "",
+				"set": "Shards of Fate",
+				"quantity": 275,
+				"total": 46875,
+				"average": 170
+			}
+		],
+		"gold": [...]
 	}

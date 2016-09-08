@@ -1,2 +1,2 @@
 #!/bin/bash
-node ../lib/updater/index.js
+node lib/updater/index.js

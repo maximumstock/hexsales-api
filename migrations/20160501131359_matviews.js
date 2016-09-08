@@ -8,7 +8,7 @@ exports.up = function(knex, Promise) {
                             DISTINCT ARTICLES
         *******************************************************/
 
-        knex.schema.raw('create materialized view distinct_articles as select distinct name, uuid, aa, set, rarity, type from daily_sales order by name;'),
+        knex.schema.raw('create materialized view distinct_articles as select distinct uuid, name, aa, set, rarity, type from daily_sales order by name;'),
         knex.schema.raw('create materialized view distinct_sets as select distinct set from daily_sales order by set')
 
     ]);
