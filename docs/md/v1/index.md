@@ -2,6 +2,10 @@
 
 ## Changelog
 
+#### 2016-09-28
+* `/stats/pricelist` now contains more data. Instead of aggregate data of the last 3, 7 and 14 days there is now data
+  for the last 1, 2, 3, 6, 7, 8, 13, 14, 15 days
+
 #### 2016-09-08
 
 * All article specific endpoints now use the UUID property for referencing articles instead of their name property. For example, sending a GET request to `/v1/articles/Vampire King` is now invalid and should use the UUID like so: `/v1/articles/46c02066-29af-4b7d-bbcb-41ba76e8120f`. This breaks a lot of old code, but needed to be changed because of naming policies of HEX.
