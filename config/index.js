@@ -7,7 +7,7 @@
 module.exports = {
 
     port: process.env.PORT ||  3000,
-    dbUrl: process.env.DBURL || 'pg://maximumstock@localhost:5432/hexsalesapi',
+    dbUrl: process.env.DBURL || 'pg://hexsalesapi:hexsalesapi@localhost:5432/hexsalesapi',
 
     cdnIndex: 'http://dl.hex.gameforge.com/auctionhouse/index.txt',
     cdnRoot: 'http://dl.hex.gameforge.com/auctionhouse',
