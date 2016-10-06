@@ -11,6 +11,11 @@
   <body>
     <article class="markdown-body"><h1 id="v1-documentation"><a class="header-link" href="#v1-documentation"></a>v1 documentation</h1>
 <h2 id="changelog"><a class="header-link" href="#changelog"></a>Changelog</h2>
+<h4 id="2016-09-28"><a class="header-link" href="#2016-09-28"></a>2016-09-28</h4>
+<ul class="list">
+<li><code>/stats/pricelist</code> now contains more data. Instead of aggregate data of the last 3, 7 and 14 days there is now data
+for the last 1, 2, 3, 6, 7, 8, 13, 14, 15 days</li>
+</ul>
 <h4 id="2016-09-08"><a class="header-link" href="#2016-09-08"></a>2016-09-08</h4>
 <ul class="list">
 <li>All article specific endpoints now use the UUID property for referencing articles instead of their name property. For example, sending a GET request to <code>/v1/articles/Vampire King</code> is now invalid and should use the UUID like so: <code>/v1/articles/46c02066-29af-4b7d-bbcb-41ba76e8120f</code>. This breaks a lot of old code, but needed to be changed because of naming policies of HEX.</li>
