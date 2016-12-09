@@ -13,10 +13,10 @@ exports.up = function(knex, Promise) {
             t.string('auction_id');
             t.string('actor');
             t.string('action');
-            t.string('plat_bid');
-            t.string('plat_buyout');
-            t.string('gold_bid');
-            t.string('gold_buyout');
+            t.integer('plat_bid');
+            t.integer('plat_buyout');
+            t.integer('gold_bid');
+            t.integer('gold_buyout');
             t.string('item');
             t.timestamp('created_at').defaultTo(knex.fn.now());
         }),
