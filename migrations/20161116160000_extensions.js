@@ -16,7 +16,9 @@ exports.up = function(knex, Promise) {
 	 			   ) sub;
 	 			$$
 	 			LANGUAGE 'sql' IMMUTABLE;
-	 			
+
+				DROP AGGREGATE IF EXISTS median(NUMERIC);
+
 	 			CREATE AGGREGATE median(NUMERIC) (
 	 			  SFUNC=array_append,
 	 			  STYPE=NUMERIC[],
@@ -30,7 +32,7 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
- 
+
 	return Promise.all([
 		knex.schema.raw('DROP FUNCTION _final_median(NUMERIC[]) CASCADE;')
 	]);
