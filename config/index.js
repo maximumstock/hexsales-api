@@ -11,7 +11,7 @@ module.exports = {
 
     cdnIndex: 'http://dl.hex.gameforge.com/auctionhouse/index.txt',
     cdnRoot: 'http://dl.hex.gameforge.com/auctionhouse',
-    apiUrl: 'http://hexdbapi2.hexsales.net/v1/objects/search',
+    apiUrl: 'http://hexdbapi.hexsales.net/v1/objects/search',
 
     startDate: '2016-07-08',
 
