@@ -12,7 +12,7 @@ module.exports = {
     cdnRoot: 'https://hexpvptools.net/ah_dump/',
     apiUrl: 'http://hexdbapi.hexsales.net/v1/objects/search',
 
-    startDate: '2016-07-08',
+    startDate: '2017-02-22',
 
     articleNameSpecialCharacters: [',', '\'', ' ']
 };

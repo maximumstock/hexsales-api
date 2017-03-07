@@ -18,7 +18,7 @@ exports.down = function(knex, Promise) {
     return Promise.all([
 
         knex.schema.raw('drop materialized view distinct_articles;'),
-		knex.schema.raw('drop materialized view distinct_sets;')
+		    knex.schema.raw('drop materialized view distinct_sets;')
 
     ]);
 
