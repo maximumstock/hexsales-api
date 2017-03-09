@@ -1,4 +1,5 @@
 .DS_Store
 coverage
 node_modules
+docs/html
 npm-debug.log
