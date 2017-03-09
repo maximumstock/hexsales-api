@@ -3,13 +3,13 @@
 ## Changelog
 
 #### 2017-03-09
-* ## <span style="color: red">Important</span>
+<!-- * ## <span style="color: red">Important</span> -->
 
-  Now using [HXE's official API for live AH data](https://forums.hextcg.com/index.php?thread/306-hex-server-api-what-it-is-and-how-to-access-it/&postID=2928#post2928)
+* Now using [HXE's official API for live AH data](https://forums.hextcg.com/index.php?thread/306-hex-server-api-what-it-is-and-how-to-access-it/&postID=2928#post2928)
 
-  **Note:** This API interprets the API data in terms of the PST timezone, because this was the case with the previously used source for AH data (daily csv dumps). This way, the current live data coming from the API should be more
+  <!-- **Note:** This API interprets the API data in terms of the PST timezone, because this was the case with the previously used source for AH data (daily csv dumps). This way, the current live data coming from the API should be more
   in line with previous data. Keep in mind that other websites might not do this,
-  so there might be differences in aggregate data.
+  so there might be differences in aggregate data. -->
 
 #### 2016-09-28
 * `/stats/pricelist` now contains more data. Instead of aggregate data of the last 3, 7 and 14 days there is now data
