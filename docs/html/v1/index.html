@@ -83,9 +83,9 @@ This also lets you query for summarizing data, but aggregates the data by day. S
 <p>Returns all data for the article with uuid <code>:uuid</code>. If there is none, a <code>404</code> response is returned.</p>
 <p>Example for <code>Wrathwood Colossus AA</code>: <a href="/v1/articles/054ddfcc-61f1-49d1-8287-37fb35a0c03d"><code>/v1/articles/054ddfcc-61f1-49d1-8287-37fb35a0c03d</code></a></p>
 <pre class="hljs"><code>{
-  <span class="hljs-string">"name"</span>: <span class="hljs-string">"Wrathwood Colossus AA"</span>,   <span class="hljs-regexp">//</span> extended name (<span class="hljs-keyword">if</span> you request the AA version <span class="hljs-keyword">of</span> a card, it<span class="hljs-string">'s name is extended by " AA"; theoretically, once extended art versions are distinguished in HexEnt'</span>s data dumps, an extended <span class="hljs-keyword">and</span> alternate art version <span class="hljs-keyword">of</span> Wrathwood Colossus would be called <span class="hljs-string">"Wrathwood Colossus EAA"</span>)
-  <span class="hljs-string">"type"</span>: <span class="hljs-string">"Card"</span>,   <span class="hljs-regexp">//</span> type <span class="hljs-keyword">of</span> the article, eg. <span class="hljs-string">"Card"</span>, <span class="hljs-string">"Pack"</span> <span class="hljs-keyword">or</span> <span class="hljs-string">"Other"</span>,
-  <span class="hljs-string">"rarity"</span>: <span class="hljs-string">"Epic"</span>, <span class="hljs-regexp">//</span> rarity <span class="hljs-keyword">of</span> the article; might be <span class="hljs-literal">null</span>
+  <span class="hljs-string">"name"</span>: <span class="hljs-string">"Wrathwood Colossus AA"</span>,   // extended name (<span class="hljs-keyword">if</span> you request the AA version <span class="hljs-keyword">of</span> a card, it<span class="hljs-symbol">'s</span> name <span class="hljs-keyword">is</span> extended by <span class="hljs-string">" AA"</span>; theoretically, once extended art versions are distinguished <span class="hljs-keyword">in</span> HexEnt<span class="hljs-symbol">'s</span> data dumps, an extended <span class="hljs-keyword">and</span> alternate art version <span class="hljs-keyword">of</span> Wrathwood Colossus would be called <span class="hljs-string">"Wrathwood Colossus EAA"</span>)
+  <span class="hljs-string">"type"</span>: <span class="hljs-string">"Card"</span>,   // <span class="hljs-keyword">type</span> <span class="hljs-type">of </span>the article, eg. <span class="hljs-string">"Card"</span>, <span class="hljs-string">"Pack"</span> <span class="hljs-keyword">or</span> <span class="hljs-string">"Other"</span>,
+  <span class="hljs-string">"rarity"</span>: <span class="hljs-string">"Epic"</span>, // rarity <span class="hljs-keyword">of</span> the article; might be null
   ...
 }</code></pre><hr>
 <p>GET <code>/v1/articles/:uuid/summaries</code></p>
@@ -141,27 +141,27 @@ This also lets you query for summarizing data, but aggregates the data by day. S
 </ul>
 <p>Example for <code>Wrathwood Colossus</code>: <a href="/v1/articles/b767da50-d694-4aeb-9197-e04be089befd/histories"><code>/v1/articles/b767da50-d694-4aeb-9197-e04be089befd/histories</code></a> (excerpt)</p>
 <pre class="hljs"><code>{
-  <span class="hljs-string">"platinum"</span>: <span class="hljs-meta">[</span>
+  <span class="hljs-string">"platinum"</span><span class="hljs-symbol">:</span> [
     {
-      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-01-24"</span>,                 <span class="hljs-comment">// date</span>
-      <span class="hljs-string">"a"</span>: <span class="hljs-number">48</span>,                         <span class="hljs-comment">// average price for that day</span>
-      <span class="hljs-string">"m"</span>: <span class="hljs-number">49</span>,                         <span class="hljs-comment">// median price for that day</span>
-      <span class="hljs-string">"mi"</span>: <span class="hljs-number">40</span>,                        <span class="hljs-comment">// minimum price for that day</span>
-      <span class="hljs-string">"ma"</span>: <span class="hljs-number">60</span>,                        <span class="hljs-comment">// maximum price for that day</span>
-      <span class="hljs-string">"t"</span>: <span class="hljs-number">339</span>,                        <span class="hljs-comment">// total currency spent that day</span>
-      <span class="hljs-string">"q"</span>: <span class="hljs-number">7</span>                           <span class="hljs-comment">// total quantity of units sold that day</span>
+      <span class="hljs-string">"d"</span><span class="hljs-symbol">:</span> <span class="hljs-string">"2016-01-24"</span>,                 // <span class="hljs-built_in">date</span>
+      <span class="hljs-string">"a"</span><span class="hljs-symbol">:</span> <span class="hljs-number">48</span>,                         // <span class="hljs-built_in">average</span> <span class="hljs-built_in">price</span> for that <span class="hljs-built_in">day</span>
+      <span class="hljs-string">"m"</span><span class="hljs-symbol">:</span> <span class="hljs-number">49</span>,                         // <span class="hljs-built_in">median</span> <span class="hljs-built_in">price</span> for that <span class="hljs-built_in">day</span>
+      <span class="hljs-string">"mi"</span><span class="hljs-symbol">:</span> <span class="hljs-number">40</span>,                        // minimum <span class="hljs-built_in">price</span> for that <span class="hljs-built_in">day</span>
+      <span class="hljs-string">"ma"</span><span class="hljs-symbol">:</span> <span class="hljs-number">60</span>,                        // maximum <span class="hljs-built_in">price</span> for that <span class="hljs-built_in">day</span>
+      <span class="hljs-string">"t"</span><span class="hljs-symbol">:</span> <span class="hljs-number">339</span>,                        // total currency spent that <span class="hljs-built_in">day</span>
+      <span class="hljs-string">"q"</span><span class="hljs-symbol">:</span> <span class="hljs-number">7</span>                           // total quantity of units sold that <span class="hljs-built_in">day</span>
     },
     {
-      <span class="hljs-string">"d"</span>: <span class="hljs-string">"2016-01-25T00:00:00.000Z"</span>,
-      <span class="hljs-string">"a"</span>: <span class="hljs-number">50</span>,
-      <span class="hljs-string">"m"</span>: <span class="hljs-number">50</span>,
-      <span class="hljs-string">"mi"</span>: <span class="hljs-number">49</span>,
-      <span class="hljs-string">"ma"</span>: <span class="hljs-number">50</span>,
-      <span class="hljs-string">"t"</span>: <span class="hljs-number">99</span>,
-      <span class="hljs-string">"q"</span>: <span class="hljs-number">2</span>
-    }, <span class="hljs-attr">...</span>
-  <span class="hljs-meta">]</span>,
-  "gold": <span class="hljs-meta">[</span><span class="hljs-attr">...</span><span class="hljs-meta">]</span>
+      <span class="hljs-string">"d"</span><span class="hljs-symbol">:</span> <span class="hljs-string">"2016-01-25T00:00:00.000Z"</span>,
+      <span class="hljs-string">"a"</span><span class="hljs-symbol">:</span> <span class="hljs-number">50</span>,
+      <span class="hljs-string">"m"</span><span class="hljs-symbol">:</span> <span class="hljs-number">50</span>,
+      <span class="hljs-string">"mi"</span><span class="hljs-symbol">:</span> <span class="hljs-number">49</span>,
+      <span class="hljs-string">"ma"</span><span class="hljs-symbol">:</span> <span class="hljs-number">50</span>,
+      <span class="hljs-string">"t"</span><span class="hljs-symbol">:</span> <span class="hljs-number">99</span>,
+      <span class="hljs-string">"q"</span><span class="hljs-symbol">:</span> <span class="hljs-number">2</span>
+    }, ...
+  ],
+  <span class="hljs-string">"gold"</span><span class="hljs-symbol">:</span> [...]
 }</code></pre><hr>
 <p>POST <code>/v1/articles/search</code></p>
 <p>Let&#39;s you search for all articles with certain attribute values.</p>
