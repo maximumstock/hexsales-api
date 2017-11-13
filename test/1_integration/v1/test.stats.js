@@ -40,8 +40,8 @@ describe('stats', function() {
 
         it('should yield an object with data for each currency', function*() {
 
-            const start = '2016-08-01';
-            const end = '2016-08-10'
+            const start = '2017-08-01';
+            const end = '2017-08-10'
             const limit = 40;
 
             const res = yield request.get(`/v1/stats/mostsold?start=${start}&end=${end}&limit=${limit}`).expect(200).expect('Content-Type', 'application/json; charset=utf-8').end();
