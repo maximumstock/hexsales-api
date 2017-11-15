@@ -399,7 +399,7 @@ Under `/stats` I'll collect some different endpoints that don't fit the rest.
 
 GET `/v1/stats/pricelist`
 
-Returns a collection of summary data for each article for each currency. Basically it is like `/v1/articles/:uuid/summaries` but for all articles and for different timespans at once. Ideally you want to use this to calculate prices of decks/collections of articles.
+Returns a collection of summary data for each article for each currency. Basically it is like `/v1/articles/:uuid/summaries` but for all articles and for different timespans at once. Ideally you want to use this to calculate prices of decks/collections of articles. The current timespans are 1, 2, 3, 6, 7, 8, 13, 14, 15 and 30 days.
 
 Example: [`/v1/stats/pricelist`](/v1/stats/pricelist) (excerpt)
 

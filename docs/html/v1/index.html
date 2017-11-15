@@ -344,7 +344,7 @@ However, due to how I aggregate my data, this endpoint does not return any media
 <h2 id="stats"><a class="header-link" href="#stats"></a>Stats</h2>
 <p>Under <code>/stats</code> I&#39;ll collect some different endpoints that don&#39;t fit the rest.</p>
 <p>GET <code>/v1/stats/pricelist</code></p>
-<p>Returns a collection of summary data for each article for each currency. Basically it is like <code>/v1/articles/:uuid/summaries</code> but for all articles and for different timespans at once. Ideally you want to use this to calculate prices of decks/collections of articles.</p>
+<p>Returns a collection of summary data for each article for each currency. Basically it is like <code>/v1/articles/:uuid/summaries</code> but for all articles and for different timespans at once. Ideally you want to use this to calculate prices of decks/collections of articles. The current timespans are 1, 2, 3, 6, 7, 8, 13, 14, 15 and 30 days.</p>
 <p>Example: <a href="/v1/stats/pricelist"><code>/v1/stats/pricelist</code></a> (excerpt)</p>
 <pre class="hljs"><code>{
   <span class="hljs-string">"gold"</span>: <span class="hljs-meta">{...}</span>,
