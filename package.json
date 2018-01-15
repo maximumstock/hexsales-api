@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "node node_modules/istanbul/lib/cli.js cover _mocha 'test/**/*.js' && bin/build_docs.sh",
+    "test": "node node_modules/istanbul/lib/cli.js cover _mocha 'test/**/*.js'",
     "start": "node server.js",
     "update": "node lib/updater/index.js"
   },
