@@ -1,4 +1,5 @@
 # hexsales-api API documentation
+This API is currently active at [https://api.hexsales.net/v1](https://api.hexsales.net/v1).
 
 ## API Overview
 Here is a short overview over this API and it's functionality.
