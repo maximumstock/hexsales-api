@@ -1,5 +1,9 @@
 # hexsales-api
 
+*NOTE: The [HEX TCG](https://en.wikipedia.org/wiki/Hex:_Shards_of_Fate) was shut down, so is this project.*
+
+---
+
 A REST-like HTTP API for sales data for the HEX tcg built with node.js and koa.js
 
 - [API documentation](DOCS.md)
